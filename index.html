@@ -323,6 +323,11 @@
   .compare .col.good li svg{color:var(--cyan);}
   @media(max-width:760px){.compare{grid-template-columns:1fr;}}
 
+  .examples-row{margin-top:22px; display:flex; align-items:center; gap:18px; flex-wrap:wrap; font-family:'IBM Plex Mono',monospace; font-size:13.5px;}
+  .examples-label{color:var(--text-mute);}
+  .examples-row a{color:var(--coral); font-weight:600; border-bottom:1px solid rgba(255,106,77,0.35); padding-bottom:2px;}
+  .examples-row a:hover{border-color:var(--coral);}
+
   /* Responsive showcase */
   .responsive-row{
     display:flex; align-items:flex-end; gap:26px; margin-top:50px; justify-content:center;
@@ -656,6 +661,11 @@
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9.5"/></svg> Botões de contato estratégicos</li>
         </ul>
       </div>
+    </div>
+    <div class="examples-row reveal">
+      <span class="examples-label">Exemplos reais:</span>
+      <a href="/exemplo-petshop" target="_blank" rel="noopener">Pet shop &amp; clínica veterinária →</a>
+      <a href="/exemplo-advogado" target="_blank" rel="noopener">Advocacia previdenciária →</a>
     </div>
   </div>
 </section>
