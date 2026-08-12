@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Focinho Feliz — Pet Shop & Clínica Veterinária</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-cream:#FFF6E6;
+    --bg-cream-alt:#FFFDF8;
+    --ink:#1B2420;
+    --ink-soft:#4A554E;
+    --green:#1E3A2F;
+    --green-light:#2F5B47;
+    --coral:#FF6A4D;
+    --coral-dark:#E24B2F;
+    --teal:#7FA79B;
+    --line:rgba(27,36,32,0.14);
+    --paper:#FFFDF8;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Space Grotesk', sans-serif;
+    background:var(--bg-cream);
+    color:var(--ink);
+    line-height:1.5;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,.display{ font-family:'Fredoka', sans-serif; font-weight:600; letter-spacing:-0.01em;}
+  .mono{ font-family:'IBM Plex Mono', monospace; letter-spacing:0.02em;}
+  a{ color:inherit; text-decoration:none; }
+  img{max-width:100%; display:block;}
+  .wrap{ max-width:1180px; margin:0 auto; padding:0 32px; }
+  section{ position:relative; }
+  ::selection{ background:var(--coral); color:#fff; }
+
+  /* Paw print pattern (SVG data URI) used as texture */
+  .paw-bg{
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cg fill='%23FFFFFF' fill-opacity='0.06'%3E%3Cellipse cx='40' cy='60' rx='7' ry='9'/%3E%3Cellipse cx='58' cy='50' rx='6' ry='8'/%3E%3Cellipse cx='76' cy='55' rx='6' ry='8'/%3E%3Cellipse cx='60' cy='78' rx='14' ry='11'/%3E%3C/g%3E%3C/svg%3E");
+    background-size:140px 140px;
+  }
+
+  /* ---------- NAV ---------- */
+  header{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    padding:18px 0;
+    transition:background .3s ease, box-shadow .3s ease, padding .3s ease;
+  }
+  header.scrolled{
+    background:var(--bg-cream-alt);
+    box-shadow:0 2px 18px rgba(27,36,32,0.08);
+    padding:12px 0;
+  }
+  nav{ display:flex; align-items:center; justify-content:space-between; }
+  .logo{ display:flex; align-items:center; gap:10px; font-size:1.25rem; font-weight:700; }
+  .logo svg{ width:34px; height:34px; }
+  header:not(.scrolled) .logo, header:not(.scrolled) .nav-links a{ color:var(--paper); }
+  header.scrolled .logo, header.scrolled .nav-links a{ color:var(--ink); }
+  .nav-links{ display:flex; gap:34px; font-size:0.95rem; font-weight:500;}
+  .nav-links a{ position:relative; opacity:0.9; }
+  .nav-links a:hover{ opacity:1; }
+  .btn{
+    display:inline-flex; align-items:center; gap:8px;
+    padding:12px 22px; border-radius:100px;
+    font-weight:600; font-size:0.92rem; cursor:pointer;
+    border:1.5px solid transparent; transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .btn:hover{ transform:translateY(-2px); }
+  .btn-coral{ background:var(--coral); color:#fff; box-shadow:0 6px 0 var(--coral-dark); }
+  .btn-coral:hover{ box-shadow:0 4px 0 var(--coral-dark); }
+  .btn-outline{ border-color:currentColor; }
+  .btn-ghost-cream{ border-color:rgba(255,246,230,0.5); color:var(--paper); }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    background:radial-gradient(circle at 78% 20%, #2C5744 0%, var(--green) 55%, #142720 100%);
+    color:var(--paper);
+    padding:150px 0 90px;
+    min-height:92vh;
+    display:flex; align-items:center;
+  }
+  .hero-grid{
+    display:grid; grid-template-columns:1.05fr 0.95fr; gap:40px; align-items:center;
+  }
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:'IBM Plex Mono', monospace; font-size:0.78rem; text-transform:uppercase;
+    letter-spacing:0.14em; color:var(--teal);
+    border:1px solid rgba(127,167,155,0.4); border-radius:100px;
+    padding:6px 14px; margin-bottom:22px;
+  }
+  .eyebrow::before{ content:'🐾'; font-size:0.9rem; }
+  .hero h1{
+    font-size:clamp(2.4rem, 5vw, 4rem); line-height:1.05; margin-bottom:22px;
+  }
+  .hero h1 em{ color:var(--coral); font-style:normal; }
+  .hero p.sub{ font-size:1.1rem; color:rgba(255,246,230,0.82); max-width:460px; margin-bottom:34px; }
+  .hero-cta{ display:flex; gap:16px; flex-wrap:wrap; margin-bottom:44px; }
+  .hero-stats{ display:flex; gap:34px; }
+  .hero-stats div{ font-family:'IBM Plex Mono', monospace; }
+  .hero-stats b{ display:block; font-size:1.5rem; font-family:'Fredoka', sans-serif; color:var(--paper); }
+  .hero-stats span{ font-size:0.76rem; color:rgba(255,246,230,0.65); text-transform:uppercase; letter-spacing:0.06em; }
+
+  .hero-art{ position:relative; display:flex; align-items:center; justify-content:center; }
+  .hero-card{
+    background:var(--paper); border-radius:26px; padding:26px;
+    width:100%; max-width:420px; position:relative;
+    box-shadow:0 30px 60px rgba(0,0,0,0.35);
+    transform:rotate(-2deg);
+  }
+  .hero-card .stamp{
+    position:absolute; top:-18px; right:-14px; width:76px; height:76px;
+    transform:rotate(12deg);
+  }
+  .id-row{ display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:18px;}
+  .id-row .mono{ font-size:0.7rem; color:var(--ink-soft); }
+  .pet-illustration{ width:100%; height:190px; }
+  .id-fields{ margin-top:16px; display:grid; grid-template-columns:1fr 1fr; gap:10px 16px; }
+  .id-fields div{ border-top:1px dashed var(--line); padding-top:8px; }
+  .id-fields label{ display:block; font-family:'IBM Plex Mono', monospace; font-size:0.62rem; text-transform:uppercase; color:var(--ink-soft); letter-spacing:0.06em; margin-bottom:2px;}
+  .id-fields strong{ font-size:0.92rem; color:var(--green); }
+
+  /* ---------- MARQUEE ---------- */
+  .marquee-strip{
+    background:var(--coral); color:#fff; overflow:hidden; white-space:nowrap;
+    padding:14px 0; border-top:1px solid rgba(0,0,0,0.08); border-bottom:1px solid rgba(0,0,0,0.08);
+  }
+  .marquee-track{ display:inline-flex; gap:40px; animation:scroll 26s linear infinite; }
+  .marquee-track span{ font-family:'IBM Plex Mono', monospace; font-size:0.85rem; text-transform:uppercase; letter-spacing:0.08em; display:inline-flex; align-items:center; gap:12px; }
+  @keyframes scroll{ from{ transform:translateX(0);} to{ transform:translateX(-50%);} }
+
+  /* ---------- SECTION HEADERS ---------- */
+  .sec-head{ max-width:600px; margin-bottom:56px; }
+  .sec-head .eyebrow{ color:var(--coral-dark); border-color:rgba(255,106,77,0.3); }
+  .sec-head .eyebrow::before{ content:'●'; font-size:0.5rem; }
+  .sec-head h2{ font-size:clamp(1.8rem, 3.4vw, 2.6rem); color:var(--green); }
+
+  /* ---------- ABOUT ---------- */
+  .about{ padding:110px 0; background:var(--bg-cream-alt); }
+  .about-grid{ display:grid; grid-template-columns:0.9fr 1.1fr; gap:70px; align-items:center; }
+  .about-visual{ position:relative; aspect-ratio:1/1; border-radius:50%; background:linear-gradient(160deg, #EAD9B8, var(--bg-cream)); display:flex; align-items:center; justify-content:center; }
+  .about-visual svg{ width:78%; height:78%; }
+  .about-visual .ring{ position:absolute; inset:0; border:2px dashed var(--line); border-radius:50%; animation:spin 40s linear infinite; }
+  @keyframes spin{ to{ transform:rotate(360deg); } }
+  .about p{ color:var(--ink-soft); font-size:1.02rem; margin-bottom:20px; max-width:500px; }
+  .about-stats{ display:flex; gap:36px; margin-top:36px; flex-wrap:wrap; }
+  .about-stats div{ border-left:3px solid var(--coral); padding-left:14px; }
+  .about-stats b{ display:block; font-size:1.6rem; font-family:'Fredoka',sans-serif; color:var(--green); }
+  .about-stats span{ font-size:0.78rem; color:var(--ink-soft); }
+
+  /* ---------- SERVICES (vaccination-card grid) ---------- */
+  .services{ padding:110px 0; background:var(--bg-cream); }
+  .card-grid{ display:grid; grid-template-columns:repeat(3, 1fr); gap:26px; }
+  .vcard{
+    background:var(--paper); border-radius:18px; padding:26px;
+    position:relative; border:1.5px dashed var(--line);
+    transition:transform .2s ease, box-shadow .2s ease;
+  }
+  .vcard:hover{ transform:translateY(-6px); box-shadow:0 18px 34px rgba(30,58,47,0.12); }
+  .vcard::before{
+    content:''; position:absolute; left:20px; right:20px; top:64px; border-top:1px dashed var(--line);
+  }
+  .vcard .num{ font-family:'IBM Plex Mono', monospace; font-size:0.7rem; color:var(--teal); letter-spacing:0.1em; }
+  .vcard .icon{ width:42px; height:42px; margin:14px 0 16px; color:var(--green); }
+  .vcard h3{ font-size:1.15rem; color:var(--green); margin-bottom:8px; }
+  .vcard p{ font-size:0.9rem; color:var(--ink-soft); margin-bottom:18px; }
+  .vcard .price{ font-family:'IBM Plex Mono', monospace; font-size:0.82rem; color:var(--coral-dark); font-weight:500; }
+
+  /* ---------- PRODUCTS CHIPS ---------- */
+  .products{ padding:70px 0 110px; background:var(--bg-cream); }
+  .chip-row{ display:flex; flex-wrap:wrap; gap:14px; }
+  .chip{
+    display:flex; align-items:center; gap:10px;
+    background:var(--paper); border:1px solid var(--line); border-radius:100px;
+    padding:12px 20px; font-size:0.9rem; font-weight:500; color:var(--green);
+  }
+  .chip .dot{ width:8px; height:8px; border-radius:50%; background:var(--coral); }
+
+  /* ---------- TESTIMONIALS ---------- */
+  .testimonials{ padding:110px 0; background:var(--green); color:var(--paper); position:relative; overflow:hidden;}
+  .testimonials .sec-head h2{ color:var(--paper); }
+  .testimonials .sec-head .eyebrow{ color:var(--teal); border-color:rgba(127,167,155,0.4); }
+  .t-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:24px; position:relative; z-index:2; }
+  .t-card{
+    background:rgba(255,253,248,0.06); border:1px dashed rgba(255,253,248,0.25);
+    border-radius:18px; padding:26px;
+  }
+  .t-card .quote{ font-size:1.5rem; color:var(--coral); font-family:'Fredoka',sans-serif; margin-bottom:12px;}
+  .t-card p.msg{ font-size:0.94rem; color:rgba(255,246,230,0.85); margin-bottom:20px; }
+  .t-foot{ display:flex; align-items:center; gap:12px; border-top:1px dashed rgba(255,253,248,0.25); padding-top:14px; }
+  .t-avatar{ width:38px; height:38px; border-radius:50%; background:var(--coral); display:flex; align-items:center; justify-content:center; font-family:'Fredoka',sans-serif; font-weight:600; color:#fff; }
+  .t-foot .who b{ display:block; font-size:0.88rem; }
+  .t-foot .who span{ font-size:0.75rem; color:rgba(255,246,230,0.6); font-family:'IBM Plex Mono', monospace; }
+
+  /* ---------- CTA BANNER ---------- */
+  .cta-banner{
+    background:var(--coral); color:#fff; padding:70px 0; position:relative;
+    background-image:repeating-linear-gradient(90deg, rgba(255,255,255,0.15) 0 2px, transparent 2px 34px);
+  }
+  .cta-banner .wrap{ display:flex; align-items:center; justify-content:space-between; gap:30px; flex-wrap:wrap; }
+  .cta-banner h2{ font-size:clamp(1.6rem,3vw,2.2rem); max-width:520px; }
+  .cta-banner .btn-coral{ background:var(--green); box-shadow:0 6px 0 #10241b; }
+
+  /* ---------- FOOTER ---------- */
+  footer{ background:#142720; color:rgba(255,246,230,0.75); padding:70px 0 26px; }
+  .foot-grid{ display:grid; grid-template-columns:1.3fr 1fr 1fr 1fr; gap:40px; margin-bottom:50px; }
+  .foot-grid h4{ font-family:'Fredoka',sans-serif; color:var(--paper); font-size:1rem; margin-bottom:16px; }
+  .foot-grid p, .foot-grid a{ font-size:0.88rem; color:rgba(255,246,230,0.68); display:block; margin-bottom:10px; }
+  .foot-grid a:hover{ color:var(--coral); }
+  .foot-logo{ display:flex; align-items:center; gap:10px; font-family:'Fredoka',sans-serif; font-weight:600; font-size:1.2rem; color:var(--paper); margin-bottom:14px; }
+  .foot-bottom{ border-top:1px solid rgba(255,246,230,0.12); padding-top:22px; display:flex; justify-content:space-between; font-size:0.78rem; color:rgba(255,246,230,0.45); flex-wrap:wrap; gap:10px; }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width:900px){
+    .nav-links{ display:none; }
+    .hero-grid{ grid-template-columns:1fr; }
+    .hero{ padding:130px 0 60px; text-align:left; }
+    .about-grid{ grid-template-columns:1fr; }
+    .about-visual{ max-width:280px; margin:0 auto; }
+    .card-grid{ grid-template-columns:1fr 1fr; }
+    .t-grid{ grid-template-columns:1fr; }
+    .foot-grid{ grid-template-columns:1fr 1fr; }
+  }
+  @media (max-width:560px){
+    .card-grid{ grid-template-columns:1fr; }
+    .hero-stats{ gap:20px; }
+    .foot-grid{ grid-template-columns:1fr; }
+    .cta-banner .wrap{ flex-direction:column; align-items:flex-start; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation:none !important; transition:none !important; }
+  }
+
+  /* focus visibility */
+  a:focus-visible, button:focus-visible{ outline:2px solid var(--coral); outline-offset:3px; }
+</style>
+</head>
+<body>
+
+<!-- SVG SYMBOL DEFS -->
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <symbol id="paw" viewBox="0 0 64 64">
+      <ellipse cx="22" cy="34" rx="7" ry="9"/>
+      <ellipse cx="42" cy="26" rx="6.5" ry="8.5"/>
+      <ellipse cx="34" cy="16" rx="6" ry="8"/>
+      <ellipse cx="46" cy="44" rx="6.5" ry="8.5"/>
+      <ellipse cx="30" cy="46" rx="15" ry="12"/>
+    </symbol>
+    <symbol id="icon-stethoscope" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 6v14a8 8 0 0016 0V6"/>
+      <circle cx="36" cy="34" r="6"/>
+      <path d="M20 20v2a10 10 0 0010 10"/>
+      <circle cx="12" cy="6" r="2.4"/>
+      <circle cx="28" cy="6" r="2.4"/>
+    </symbol>
+    <symbol id="icon-syringe" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M32 6l10 10"/>
+      <path d="M28 10l10 10-18 18-10-10z"/>
+      <path d="M20 28l-8 8"/>
+      <path d="M16 24l-3 3"/>
+      <path d="M20 28l3-3"/>
+    </symbol>
+    <symbol id="icon-scissors" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="5"/>
+      <circle cx="12" cy="36" r="5"/>
+      <path d="M16 15l26 26"/>
+      <path d="M16 33L42 7"/>
+    </symbol>
+    <symbol id="icon-tooth" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M24 8c-6 0-10 4-10 10 0 8 3 10 3 18 0 3 2 4 3 4s3-2 4-8c0.5-3 1-4 2-4s1.5 1 2 4c1 6 3 8 4 8s3-1 3-4c0-8 3-10 3-18 0-6-4-10-10-10z"/>
+    </symbol>
+    <symbol id="icon-house" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M8 22L24 8l16 14"/>
+      <path d="M12 20v18h24V20"/>
+      <path d="M20 38v-8h8v8"/>
+    </symbol>
+    <symbol id="icon-bag" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M10 16h28l-2 24H12z"/>
+      <path d="M16 16v-2a8 8 0 0116 0v2"/>
+    </symbol>
+  </defs>
+</svg>
+
+<header id="siteHeader">
+  <div class="wrap">
+    <nav>
+      <div class="logo">
+        <svg viewBox="0 0 64 64" fill="currentColor"><use href="#paw"/></svg>
+        Focinho Feliz
+      </div>
+      <div class="nav-links">
+        <a href="#servicos">Serviços</a>
+        <a href="#sobre">Sobre</a>
+        <a href="#depoimentos">Depoimentos</a>
+        <a href="#contato">Contato</a>
+      </div>
+      <a href="#contato" class="btn btn-coral">Agendar horário</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero paw-bg">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow">Pet shop &amp; clínica veterinária · Maringá, PR</div>
+      <h1>Todo pet merece um <em>focinho feliz.</em></h1>
+      <p class="sub">Consultas, vacinas, banho &amp; tosa, hotel e uma lojinha completa — tudo num só lugar, com quem realmente entende do seu bicho de estimação.</p>
+      <div class="hero-cta">
+        <a href="#contato" class="btn btn-coral">📅 Agendar consulta</a>
+        <a href="#servicos" class="btn btn-outline btn-ghost-cream">Ver serviços</a>
+      </div>
+      <div class="hero-stats">
+        <div><b>12</b><span>anos de cuidado</span></div>
+        <div><b>3.200+</b><span>pets atendidos</span></div>
+        <div><b>4.9★</b><span>avaliação média</span></div>
+      </div>
+    </div>
+
+    <div class="hero-art">
+      <div class="hero-card">
+        <svg class="stamp" viewBox="0 0 76 76">
+          <circle cx="38" cy="38" r="34" fill="none" stroke="#FF6A4D" stroke-width="2" stroke-dasharray="4 4"/>
+          <text x="38" y="34" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="8" fill="#FF6A4D">FOCINHO</text>
+          <text x="38" y="46" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="8" fill="#FF6A4D">FELIZ ✓</text>
+        </svg>
+        <div class="id-row">
+          <div>
+            <div class="mono">CARTEIRINHA PET · Nº 00482</div>
+          </div>
+          <svg width="26" height="26" viewBox="0 0 64 64" fill="#1E3A2F"><use href="#paw"/></svg>
+        </div>
+
+        <svg class="pet-illustration" viewBox="0 0 300 170" fill="none">
+          <!-- dog -->
+          <g stroke="#1E3A2F" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none">
+            <path d="M60 130c0-38 26-64 58-64s58 26 58 64" />
+            <path d="M45 90c-10-6-16-20-10-32 12 2 22 12 24 24"/>
+            <path d="M175 90c10-6 16-20 10-32-12 2-22 12-24 24"/>
+            <circle cx="98" cy="96" r="4" fill="#1E3A2F"/>
+            <circle cx="140" cy="96" r="4" fill="#1E3A2F"/>
+            <path d="M110 112c4 4 12 4 16 0" />
+            <path d="M118 100v10"/>
+          </g>
+          <!-- cat -->
+          <g stroke="#FF6A4D" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none">
+            <path d="M200 150c0-30 20-50 46-50s46 20 46 50"/>
+            <path d="M208 104l-6-20 18 10"/>
+            <path d="M284 104l6-20-18 10"/>
+            <circle cx="232" cy="122" r="3.5" fill="#FF6A4D"/>
+            <circle cx="260" cy="122" r="3.5" fill="#FF6A4D"/>
+            <path d="M246 130v6"/>
+            <path d="M200 132h-16M200 138h-18M292 132h16M292 138h18"/>
+          </g>
+        </svg>
+
+        <div class="id-fields">
+          <div><label>Nome</label><strong>Bidu &amp; Mimi</strong></div>
+          <div><label>Status</label><strong>Vacinas em dia</strong></div>
+          <div><label>Espécie</label><strong>Canina &amp; Felina</strong></div>
+          <div><label>Validade</label><strong>Renovação anual</strong></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="marquee-strip">
+  <div class="marquee-track" id="marqueeTrack">
+    <span>🐾 Banho &amp; Tosa</span>
+    <span>🐾 Vacinação</span>
+    <span>🐾 Consultas 7 dias</span>
+    <span>🐾 Hotel Pet</span>
+    <span>🐾 Odontologia</span>
+    <span>🐾 Loja &amp; Delivery</span>
+    <span>🐾 Banho &amp; Tosa</span>
+    <span>🐾 Vacinação</span>
+    <span>🐾 Consultas 7 dias</span>
+    <span>🐾 Hotel Pet</span>
+    <span>🐾 Odontologia</span>
+    <span>🐾 Loja &amp; Delivery</span>
+  </div>
+</div>
+
+<section class="about" id="sobre">
+  <div class="wrap about-grid">
+    <div class="about-visual">
+      <div class="ring"></div>
+      <svg viewBox="0 0 200 200" fill="none">
+        <g stroke="#1E3A2F" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M50 150c0-40 22-66 50-66s50 26 50 66"/>
+          <path d="M38 96c-9-6-14-18-9-29 11 2 20 11 22 22"/>
+          <path d="M162 96c9-6 14-18 9-29-11 2-20 11-22 22"/>
+          <circle cx="86" cy="104" r="3.5" fill="#1E3A2F"/>
+          <circle cx="114" cy="104" r="3.5" fill="#1E3A2F"/>
+          <path d="M96 120c4 4 10 4 14 0"/>
+        </g>
+      </svg>
+    </div>
+    <div>
+      <div class="eyebrow">Nossa história</div>
+      <h2 style="font-size:2.2rem;color:var(--green);margin-bottom:20px;">Começou com uma vira-lata chamada Nina.</h2>
+      <p>A Dra. Fernanda abriu a Focinho Feliz em 2013 depois de cuidar da própria cadela, resgatada nas ruas de Maringá. O que era um consultório pequeno virou uma clínica completa, com pet shop integrado e uma equipe que trata cada visita como se o pet fosse da família.</p>
+      <p>Hoje somos referência no bairro Zona 7, com atendimento humanizado, equipamentos modernos e uma equipe que realmente ama o que faz.</p>
+      <div class="about-stats">
+        <div><b>6</b><span>veterinários<br>especialistas</span></div>
+        <div><b>7 dias</b><span>por semana<br>com plantão</span></div>
+        <div><b>100%</b><span>produtos com<br>curadoria própria</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="services" id="servicos">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">O que fazemos</div>
+      <h2>Cuidado completo, do check-up ao brinquedo favorito.</h2>
+    </div>
+    <div class="card-grid">
+      <div class="vcard">
+        <div class="num">SERV · 01</div>
+        <svg class="icon"><use href="#icon-stethoscope"/></svg>
+        <h3>Consulta &amp; Check-up</h3>
+        <p>Avaliação clínica completa com veterinário responsável e retorno incluso.</p>
+        <div class="price">a partir de R$ 90</div>
+      </div>
+      <div class="vcard">
+        <div class="num">SERV · 02</div>
+        <svg class="icon"><use href="#icon-syringe"/></svg>
+        <h3>Vacinação &amp; Vermifugação</h3>
+        <p>Calendário de vacinas em dia, com carteirinha física atualizada a cada visita.</p>
+        <div class="price">a partir de R$ 60</div>
+      </div>
+      <div class="vcard">
+        <div class="num">SERV · 03</div>
+        <svg class="icon"><use href="#icon-scissors"/></svg>
+        <h3>Banho &amp; Tosa</h3>
+        <p>Tosa higiênica ou na tesoura, do jeitinho que o seu pet — e você — gostam.</p>
+        <div class="price">a partir de R$ 55</div>
+      </div>
+      <div class="vcard">
+        <div class="num">SERV · 04</div>
+        <svg class="icon"><use href="#icon-tooth"/></svg>
+        <h3>Odontologia Pet</h3>
+        <p>Limpeza e prevenção de tártaro para manter o sorriso — e o hálito — em dia.</p>
+        <div class="price">a partir de R$ 120</div>
+      </div>
+      <div class="vcard">
+        <div class="num">SERV · 05</div>
+        <svg class="icon"><use href="#icon-house"/></svg>
+        <h3>Hotel &amp; Day Care</h3>
+        <p>Hospedagem e recreação supervisionada enquanto você viaja ou trabalha.</p>
+        <div class="price">diária a partir de R$ 70</div>
+      </div>
+      <div class="vcard">
+        <div class="num">SERV · 06</div>
+        <svg class="icon"><use href="#icon-bag"/></svg>
+        <h3>Pet Shop</h3>
+        <p>Ração, petiscos, brinquedos e acessórios com curadoria própria da equipe.</p>
+        <div class="price">loja física &amp; delivery</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="products">
+  <div class="wrap">
+    <div class="sec-head" style="margin-bottom:30px;">
+      <div class="eyebrow">Na lojinha</div>
+      <h2 style="font-size:1.8rem;">O que você encontra por aqui</h2>
+    </div>
+    <div class="chip-row">
+      <div class="chip"><span class="dot"></span>Ração premium</div>
+      <div class="chip"><span class="dot"></span>Petiscos naturais</div>
+      <div class="chip"><span class="dot"></span>Brinquedos</div>
+      <div class="chip"><span class="dot"></span>Coleiras &amp; guias</div>
+      <div class="chip"><span class="dot"></span>Higiene &amp; banho</div>
+      <div class="chip"><span class="dot"></span>Casinhas &amp; camas</div>
+    </div>
+  </div>
+</section>
+
+<section class="testimonials" id="depoimentos">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">Quem já passou por aqui</div>
+      <h2>Tutores &amp; pets contam como foi.</h2>
+    </div>
+    <div class="t-grid">
+      <div class="t-card">
+        <div class="quote">"</div>
+        <p class="msg">O Bidu tinha pavor de veterinário. Na Focinho Feliz ele entra rebolando de tanta felicidade. A equipe é outro nível.</p>
+        <div class="t-foot">
+          <div class="t-avatar">MC</div>
+          <div class="who"><b>Marina Costa</b><span>tutora do Bidu · golden</span></div>
+        </div>
+      </div>
+      <div class="t-card">
+        <div class="quote">"</div>
+        <p class="msg">Levei a Mimi para uma limpeza dentária e o cuidado com o pós foi impecável. Explicaram cada detalhe antes de fazer.</p>
+        <div class="t-foot">
+          <div class="t-avatar">RT</div>
+          <div class="who"><b>Rafael Tanaka</b><span>tutor da Mimi · persa</span></div>
+        </div>
+      </div>
+      <div class="t-card">
+        <div class="quote">"</div>
+        <p class="msg">O Thor é um vira-lata cheio de manha e mesmo assim sai tosado, cheiroso e feliz toda vez. Virei cliente fiel.</p>
+        <div class="t-foot">
+          <div class="t-avatar">CD</div>
+          <div class="who"><b>Camila Duarte</b><span>tutora do Thor · vira-lata</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-banner" id="contato">
+  <div class="wrap">
+    <h2>Vamos marcar uma visita para o seu pet?</h2>
+    <a href="#" class="btn btn-coral">💬 Chamar no WhatsApp</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="foot-logo">
+          <svg width="24" height="24" viewBox="0 0 64 64" fill="var(--coral)"><use href="#paw"/></svg>
+          Focinho Feliz
+        </div>
+        <p>Pet shop &amp; clínica veterinária cuidando de pets em Maringá desde 2013.</p>
+      </div>
+      <div>
+        <h4>Contato</h4>
+        <a href="#">(44) 99999-0000</a>
+        <a href="#">contato@focinhofeliz.com.br</a>
+        <a href="#">@focinhofeliz</a>
+      </div>
+      <div>
+        <h4>Endereço</h4>
+        <p>Av. Cerro Azul, 1420<br>Zona 7 — Maringá, PR</p>
+      </div>
+      <div>
+        <h4>Horário</h4>
+        <p>Seg a Sex — 8h às 19h<br>Sábado — 8h às 13h</p>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Focinho Feliz. Todos os direitos reservados.</span>
+      <span>Site demonstrativo desenvolvido por TechNoda</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const header = document.getElementById('siteHeader');
+  window.addEventListener('scroll', () => {
+    header.classList.toggle('scrolled', window.scrollY > 40);
+  });
+</script>
+
+</body>
+</html>
