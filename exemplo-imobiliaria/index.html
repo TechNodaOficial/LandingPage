@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vértice Imóveis — Comprar e Alugar em São Paulo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f3f2f2;
+    --surface:#eae9e9;
+    --ink:#201f1d;
+    --accent:#b68235;
+    --accent-100:#fff3e4;
+    --accent-200:#ffe3bf;
+    --accent-300:#facb8d;
+    --accent-600:#a06f24;
+    --accent-700:#7d5411;
+    --neutral-100:#f8f4f4;
+    --neutral-200:#eae7e7;
+    --neutral-300:#d7d3d3;
+    --neutral-500:#9b9797;
+    --neutral-600:#7d7979;
+    --neutral-700:#605d5d;
+    --neutral-800:#444141;
+    --neutral-900:#2d2b2b;
+    --line:rgba(32,31,29,0.16);
+    --font-heading:'Cormorant Garamond', serif;
+    --font-body:'Lora', serif;
+    --font-mono:'IBM Plex Mono', monospace;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  html,body{overflow-x:hidden;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font-body);line-height:1.55;}
+  h1,h2,h3{font-family:var(--font-heading);font-weight:400;margin:0;}
+  a{color:var(--accent-700);text-decoration:none;}
+  a:hover{color:var(--accent-600);}
+  img{max-width:100%;display:block;}
+  ::selection{background:var(--accent-200);}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+  .wrap{max-width:1240px;margin:0 auto;padding:0 40px;}
+  .kicker{font-family:var(--font-mono);font-size:11px;letter-spacing:0.24em;text-transform:uppercase;color:var(--accent-700);margin:0 0 20px;}
+  section{padding:0;}
+
+  /* — buttons — */
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;cursor:pointer;text-decoration:none;font-family:var(--font-heading);font-size:16px;font-weight:500;padding:12px 26px;border-radius:4px;border:1px solid transparent;white-space:nowrap;}
+  .btn-primary{color:var(--accent);border-color:var(--accent);}
+  .btn-primary:hover{background:rgba(182,130,53,0.12);color:var(--accent);}
+  .launch .btn-primary{color:var(--accent-300);border-color:var(--accent-300);}
+  .launch .btn-primary:hover{background:rgba(250,203,141,0.14);color:var(--accent-300);}
+  .btn-secondary{border-color:var(--ink);color:var(--ink);}
+  .btn-secondary:hover{background:rgba(32,31,29,0.06);}
+  .btn-ghost{color:var(--accent-700);padding:12px 4px;}
+  .btn-ghost:hover{color:var(--accent-600);}
+  .btn-block{width:100%;}
+
+  /* — photo placeholders — */
+  .photo{position:relative;background-color:var(--neutral-200);background-image:repeating-linear-gradient(135deg, rgba(32,31,29,0.07) 0 2px, transparent 2px 11px);display:flex;align-items:flex-end;padding:16px;}
+  .photo span{font-family:var(--font-mono);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--neutral-700);background:var(--bg);padding:5px 8px;}
+  .photo.dark{background-color:#3a3737;background-image:repeating-linear-gradient(135deg, rgba(248,244,244,0.08) 0 2px, transparent 2px 11px);}
+  .photo.dark span{color:var(--neutral-300);background:transparent;padding:0;}
+
+  /* — header — */
+  header{position:sticky;top:0;z-index:40;background:rgba(243,242,242,0.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);}
+  .nav-row{display:flex;align-items:center;gap:40px;padding:18px 0;}
+  .brand{display:flex;align-items:baseline;gap:10px;margin-right:auto;}
+  .brand-name{font-family:var(--font-heading);font-size:26px;letter-spacing:0.14em;text-transform:uppercase;}
+  .brand-city{font-family:var(--font-mono);font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--neutral-600);}
+  .nav-links{display:flex;gap:28px;font-size:14px;color:var(--neutral-800);white-space:nowrap;}
+  .nav-links a{color:var(--neutral-800);}
+  .nav-links a:hover{color:var(--accent-700);}
+
+  /* — hero — */
+  .hero{max-width:1240px;margin:0 auto;padding:84px 40px 64px;display:grid;grid-template-columns:1.05fr 0.95fr;gap:56px;align-items:end;}
+  .hero h1{font-size:clamp(38px,5.6vw,78px);line-height:1.03;letter-spacing:-0.01em;margin:0 0 26px;}
+  .hero h1 em{font-style:italic;color:var(--accent-700);}
+  .hero p.lead{font-size:17px;line-height:1.65;color:var(--neutral-800);max-width:46ch;margin:0 0 32px;}
+  .hero-actions{display:flex;gap:14px;align-items:center;flex-wrap:wrap;}
+  .hero-frame{padding:10px;background:var(--surface);border:1px solid var(--line);border-radius:4px;}
+  .hero-frame .photo{aspect-ratio:4/3.4;}
+
+  /* — filter bar — */
+  .filter-section{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--neutral-100);}
+  .filter-bar{padding:34px 0;display:flex;flex-wrap:wrap;gap:26px;align-items:flex-end;}
+  .seg{display:inline-flex;overflow:hidden;border:1px solid var(--line);border-radius:4px;}
+  .seg-opt{position:relative;display:inline-flex;align-items:center;gap:6px;padding:8px 14px;font-size:13px;cursor:pointer;}
+  .seg-opt+.seg-opt{border-left:1px solid var(--line);}
+  .seg-opt input{position:absolute;opacity:0;width:0;height:0;}
+  .seg-opt.active{color:var(--accent-700);box-shadow:inset 0 0 0 1px var(--accent-700);}
+  .field{display:flex;flex-direction:column;gap:6px;min-width:170px;}
+  .field span{font-size:12px;color:var(--neutral-700);}
+  .field select{width:100%;min-height:38px;padding:6px 10px;font:inherit;font-size:14px;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:4px;}
+  .result-label{margin-left:auto;text-align:right;font-family:var(--font-mono);font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:var(--neutral-600);}
+
+  /* — property grid — */
+  .listings{max-width:1240px;margin:0 auto;padding:72px 40px;}
+  .listings-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:34px;gap:16px;flex-wrap:wrap;}
+  .listings-head h2{font-size:clamp(30px,3.6vw,46px);}
+  .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:30px;}
+  .grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:30px;}
+  .card{border:1px solid var(--line);border-radius:4px;overflow:hidden;box-shadow:0 1px 2px rgba(45,43,43,0.14);background:var(--bg);display:flex;flex-direction:column;}
+  .card .photo{aspect-ratio:4/3;}
+  .card .tag{position:absolute;top:14px;left:14px;background:var(--bg);border:1px solid var(--accent-700);color:var(--accent-700);font-size:11px;padding:3px 10px;border-radius:3px;}
+  .card-body{padding:22px 22px 24px;display:flex;flex-direction:column;gap:10px;flex:1;}
+  .card-kicker{margin:0;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent-700);}
+  .card-title{font-size:25px;margin:0;}
+  .card-specs{font-size:14px;color:var(--neutral-700);margin:0;}
+  .card-footer{margin-top:auto;padding-top:16px;border-top:1px solid var(--line);display:flex;align-items:baseline;justify-content:space-between;gap:12px;}
+  .card-price{font-family:var(--font-heading);font-size:27px;font-variant-numeric:tabular-nums;}
+  .card-extra{font-size:12px;color:var(--neutral-600);}
+  .no-results{text-align:center;padding:60px 0;color:var(--neutral-700);font-style:italic;display:none;}
+  .lancamento-note{text-align:center;padding:60px 0;color:var(--neutral-700);font-style:italic;display:none;}
+
+  /* — launch banner — */
+  .launch{background:var(--neutral-900);color:var(--neutral-100);}
+  .launch-grid{max-width:1240px;margin:0 auto;padding:90px 40px;display:grid;grid-template-columns:0.95fr 1.05fr;gap:60px;align-items:center;}
+  .launch-frame{padding:10px;background:rgba(248,244,244,0.06);border:1px solid rgba(248,244,244,0.14);border-radius:4px;}
+  .launch-frame .photo{aspect-ratio:4/3.2;}
+  .launch-grid .kicker{color:var(--accent-300);}
+  .launch-grid h2{font-size:clamp(34px,4.6vw,62px);font-weight:300;line-height:1.05;margin:0 0 20px;}
+  .launch-grid p.lead{font-size:16px;line-height:1.7;color:var(--neutral-300);max-width:48ch;margin:0 0 30px;}
+  .launch-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;border-top:1px solid rgba(248,244,244,0.16);border-bottom:1px solid rgba(248,244,244,0.16);padding:22px 0;margin-bottom:30px;}
+  .launch-stats p:first-child{font-family:var(--font-heading);font-size:30px;margin:0 0 4px;font-variant-numeric:tabular-nums;}
+  .launch-stats p:last-child{font-size:12px;color:var(--neutral-500);margin:0;}
+
+  /* — numbers strip — */
+  .numbers{max-width:1240px;margin:0 auto;padding:66px 40px;}
+  .number-item{border-left:1px solid var(--accent-300);padding-left:20px;}
+  .number-item .val{font-family:var(--font-heading);font-size:52px;line-height:1;margin:0 0 10px;font-variant-numeric:tabular-nums;}
+  .number-item .label{font-size:14px;color:var(--neutral-700);margin:0;line-height:1.5;}
+
+  /* — neighborhoods — */
+  .neighborhoods{border-top:1px solid var(--line);}
+  .neighborhoods .wrap{padding:78px 40px;}
+  .neighborhoods h2{font-size:clamp(30px,3.6vw,46px);margin:0 0 8px;}
+  .neighborhoods>.wrap>p{font-size:16px;color:var(--neutral-700);margin:0 0 36px;}
+  .nbhd-card{display:block;border:1px solid var(--line);border-radius:4px;padding:8px 8px 0;color:var(--ink);}
+  .nbhd-card:hover{border-color:var(--accent-300);}
+  .nbhd-card .photo{aspect-ratio:16/9;padding:12px;}
+  .nbhd-card .photo span{padding:4px 7px;}
+  .nbhd-foot{padding:16px 12px 18px;display:flex;align-items:baseline;justify-content:space-between;gap:12px;}
+  .nbhd-name{font-family:var(--font-heading);font-size:26px;}
+  .nbhd-qtd{font-size:11px;background:var(--neutral-100);color:var(--neutral-800);padding:3px 10px;border-radius:3px;}
+
+  /* — how it works — */
+  .how{border-top:1px solid var(--line);background:var(--neutral-100);}
+  .how .wrap{padding:78px 40px;}
+  .how h2{font-size:clamp(30px,3.6vw,46px);margin:0 0 40px;}
+  .step{border-top:1px solid var(--accent-300);padding-top:18px;}
+  .step .n{font-family:var(--font-mono);font-size:12px;letter-spacing:0.2em;color:var(--accent-700);margin:0 0 14px;font-variant-numeric:tabular-nums;}
+  .step h3{font-weight:500;font-size:25px;margin:0 0 10px;}
+  .step p{font-size:15px;line-height:1.65;color:var(--neutral-700);margin:0;}
+
+  /* — simulator — */
+  .simulator{border-top:1px solid var(--line);}
+  .sim-grid{max-width:1240px;margin:0 auto;padding:84px 40px;display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start;}
+  .sim-grid h2{font-size:clamp(30px,3.6vw,46px);line-height:1.08;margin:0 0 18px;}
+  .sim-grid>div:first-child p.lead{font-size:16px;line-height:1.7;color:var(--neutral-700);margin:0 0 34px;max-width:44ch;}
+  .sim-field{display:flex;flex-direction:column;gap:10px;}
+  .sim-field-head{display:flex;justify-content:space-between;align-items:baseline;}
+  .sim-field-head span:first-child{font-family:var(--font-mono);font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--neutral-600);}
+  .sim-field-head span:last-child{font-family:var(--font-heading);font-size:22px;font-variant-numeric:tabular-nums;}
+  .sim-field input[type=range]{width:100%;accent-color:var(--accent);cursor:pointer;}
+  .sim-fields{display:flex;flex-direction:column;gap:30px;}
+  .sim-result{border:1px solid var(--line);border-radius:4px;padding:38px 34px;background:var(--neutral-100);}
+  .sim-result-label{font-family:var(--font-mono);font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--neutral-600);margin:0 0 12px;}
+  .sim-result-value{font-family:var(--font-heading);font-weight:400;font-size:clamp(40px,5vw,64px);line-height:1;margin:0 0 30px;font-variant-numeric:tabular-nums;}
+  .sim-lines{display:flex;flex-direction:column;border-top:1px solid var(--line);margin-bottom:26px;}
+  .sim-line{display:flex;justify-content:space-between;gap:16px;padding:14px 0;border-bottom:1px solid var(--line);font-size:15px;}
+  .sim-line span:first-child{color:var(--neutral-700);}
+  .sim-line span:last-child{font-variant-numeric:tabular-nums;}
+
+  /* — testimonials — */
+  .testimonials{border-top:1px solid var(--line);background:var(--neutral-100);}
+  .testimonials .wrap{max-width:1080px;padding:84px 40px;text-align:center;}
+  .testimonials .kicker{margin:0 0 34px;}
+  .t-quote{font-family:var(--font-heading);font-weight:300;font-style:italic;font-size:clamp(24px,3.4vw,38px);line-height:1.34;margin:0 auto 30px;max-width:24ch;}
+  .t-meta{font-size:14px;color:var(--neutral-700);margin:0 0 34px;}
+  .t-dots{display:flex;gap:10px;justify-content:center;align-items:center;}
+  .t-dots button{width:34px;height:3px;border:none;padding:0;cursor:pointer;background:var(--neutral-300);}
+  .t-dots button.active{background:var(--accent);}
+
+  /* — brokers — */
+  .brokers{border-top:1px solid var(--line);}
+  .brokers .wrap{padding:78px 40px;}
+  .brokers-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:36px;gap:16px;flex-wrap:wrap;}
+  .brokers-head h2{font-size:clamp(30px,3.6vw,46px);}
+  .brokers-head p{font-size:14px;color:var(--neutral-700);margin:0;}
+  .broker-frame{padding:8px;background:var(--surface);border:1px solid var(--line);border-radius:4px;margin-bottom:16px;}
+  .broker-frame .photo{aspect-ratio:3/4;}
+  .broker h3{font-weight:500;font-size:23px;margin:0 0 4px;}
+  .broker p{font-size:14px;color:var(--neutral-700);margin:0 0 3px;}
+  .broker .creci{font-family:var(--font-mono);font-size:11px;color:var(--neutral-600);margin:0;}
+
+  /* — advertise / CTA form — */
+  .advertise{border-top:1px solid var(--line);background:var(--accent-100);}
+  .advertise-grid{max-width:1240px;margin:0 auto;padding:84px 40px;display:grid;grid-template-columns:1fr 0.85fr;gap:60px;align-items:center;}
+  .advertise-grid h2{font-size:clamp(32px,4vw,50px);line-height:1.06;margin:0 0 18px;}
+  .advertise-grid>div:first-child p.lead{font-size:16px;line-height:1.7;color:var(--neutral-800);max-width:50ch;margin:0 0 26px;}
+  .benefits{list-style:none;padding:0;margin:0 0 0;display:flex;flex-direction:column;gap:12px;}
+  .benefits li{font-size:15px;color:var(--neutral-800);border-bottom:1px solid var(--accent-300);padding-bottom:12px;}
+  .advertise-form{background:var(--bg);padding:32px 30px;border:1px solid var(--line);border-radius:4px;display:flex;flex-direction:column;gap:18px;}
+  .advertise-form h3{font-weight:500;font-size:27px;margin:0;}
+  .form-field{display:flex;flex-direction:column;gap:5px;}
+  .form-field span{font-size:12px;color:var(--neutral-700);}
+  .form-field input{min-height:38px;padding:6px 10px;font:inherit;font-size:14px;color:var(--ink);background:transparent;border:1px solid var(--line);border-radius:4px;}
+  .form-field input:focus-visible{border-color:var(--accent);}
+  .advertise-form .disclaimer{font-size:12px;color:var(--neutral-600);margin:0;}
+
+  /* — blog — */
+  .blog{border-top:1px solid var(--line);}
+  .blog .wrap{padding:78px 40px;}
+  .blog-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:34px;gap:16px;flex-wrap:wrap;}
+  .blog-head h2{font-size:clamp(30px,3.6vw,46px);}
+  .post{display:block;border-top:1px solid var(--line);padding-top:20px;color:var(--ink);}
+  .post:hover{border-color:var(--accent);}
+  .post-meta{font-family:var(--font-mono);font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--neutral-600);margin:0 0 12px;}
+  .post h3{font-weight:500;font-size:27px;line-height:1.2;margin:0 0 10px;}
+  .post p{font-size:15px;line-height:1.65;color:var(--neutral-700);margin:0;}
+
+  /* — faq — */
+  .faq-section{border-top:1px solid var(--line);background:var(--neutral-100);}
+  .faq-section .wrap{max-width:900px;padding:78px 40px;}
+  .faq-section h2{font-size:clamp(30px,3.6vw,46px);margin:0 0 34px;}
+  .faq-list{border-top:1px solid var(--line);}
+  .faq-item{border-bottom:1px solid var(--line);}
+  .faq-q{width:100%;display:flex;justify-content:space-between;align-items:center;gap:20px;text-align:left;background:transparent;border:none;padding:22px 2px;cursor:pointer;font-family:var(--font-heading);font-size:24px;color:var(--ink);}
+  .faq-q:hover{color:var(--accent-700);}
+  .faq-q .sinal{font-family:var(--font-mono);font-size:18px;color:var(--accent-700);}
+  .faq-a{font-size:15px;line-height:1.7;color:var(--neutral-700);margin:0;padding:0 60px 24px 2px;max-width:70ch;display:none;}
+  .faq-item.open .faq-a{display:block;}
+
+  /* — contact cta — */
+  .contact-cta{border-top:1px solid var(--line);}
+  .contact-cta .wrap{padding:96px 40px;text-align:center;}
+  .contact-cta h2{font-size:clamp(38px,5vw,60px);font-weight:300;line-height:1.06;margin:0 0 18px;}
+  .contact-cta p{font-size:17px;color:var(--neutral-700);margin:0 auto 34px;max-width:52ch;}
+  .contact-actions{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;}
+
+  /* — footer — */
+  footer{border-top:1px solid var(--line);background:var(--neutral-900);color:var(--neutral-300);}
+  .footer-grid{max-width:1240px;margin:0 auto;padding:68px 40px 36px;display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:44px;}
+  .footer-brand{font-family:var(--font-heading);font-size:26px;letter-spacing:0.14em;text-transform:uppercase;color:var(--neutral-100);margin:0 0 14px;}
+  .footer-grid p{font-size:14px;line-height:1.7;margin:0 0 16px;max-width:34ch;}
+  .footer-grid .mono{font-family:var(--font-mono);font-size:12px;margin:0;}
+  .footer-col-title{font-family:var(--font-mono);font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--neutral-500);margin:0 0 16px;}
+  .footer-links{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px;}
+  .footer-links a{font-size:14px;color:var(--neutral-300);}
+  .footer-links a:hover{color:var(--accent-300);}
+  .footer-bottom{max-width:1240px;margin:0 auto;padding:22px 40px 40px;border-top:1px solid rgba(248,244,244,0.14);display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+  .footer-bottom p{font-family:var(--font-mono);font-size:11px;color:var(--neutral-500);margin:0;}
+
+  /* — reveal on scroll — */
+  .reveal{opacity:0;transform:translateY(10px);transition:opacity .6s ease, transform .6s ease;}
+  .reveal.in{opacity:1;transform:translateY(0);}
+
+  @media (max-width:1024px){
+    .hero,.launch-grid,.sim-grid,.advertise-grid{grid-template-columns:1fr!important;}
+    .grid-3,.grid-4{grid-template-columns:repeat(2,1fr)!important;}
+    .footer-grid{grid-template-columns:repeat(2,1fr)!important;}
+    .nav-links{gap:18px!important;}
+  }
+  @media (max-width:680px){
+    .nav-row{flex-direction:column;align-items:flex-start;gap:14px;padding:14px 0!important;}
+    .nav-row .btn{align-self:stretch;text-align:center;}
+    .brand{margin-right:0;}
+    .nav-links{width:100%;overflow-x:auto;gap:16px!important;padding-bottom:4px;}
+    .wrap,.hero,.filter-bar,.listings,.launch-grid,.numbers,.neighborhoods .wrap,.how .wrap,.sim-grid,.testimonials .wrap,.brokers .wrap,.advertise-grid,.blog .wrap,.faq-section .wrap,.contact-cta .wrap,.footer-grid,.footer-bottom{padding-left:24px!important;padding-right:24px!important;}
+    .grid-3,.grid-4,.footer-grid{grid-template-columns:1fr!important;}
+    .filter-bar{flex-direction:column;align-items:stretch!important;}
+    .result-label{text-align:left!important;margin-left:0!important;}
+    h1{font-size:40px!important;line-height:1.12!important;}
+    h2{font-size:30px!important;}
+    h3{font-size:20px!important;}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .reveal{opacity:1;transform:none;transition:none;}
+    html{scroll-behavior:auto;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav-row">
+    <div class="brand">
+      <span class="brand-name">Vértice</span>
+      <span class="brand-city">São Paulo</span>
+    </div>
+    <nav class="nav-links">
+      <a href="#imoveis">Imóveis</a>
+      <a href="#bairros">Bairros</a>
+      <a href="#lancamento">Lançamento</a>
+      <a href="#simulador">Financiamento</a>
+      <a href="#anuncie">Anunciar imóvel</a>
+    </nav>
+    <a href="#contato" class="btn btn-primary">Falar com corretor</a>
+  </div>
+</header>
+
+<section class="hero reveal">
+  <div>
+    <p class="kicker">Imobiliária urbana · desde 2009</p>
+    <h1>Apartamentos para<br>comprar e alugar em<br><em>São Paulo</em></h1>
+    <p class="lead">1.842 imóveis verificados, contrato digital e visita agendada em até 48 horas. Sem taxa de intermediação para o inquilino.</p>
+    <div class="hero-actions">
+      <a href="#imoveis" class="btn btn-primary">Ver imóveis</a>
+      <a href="#anuncie" class="btn btn-secondary">Quero anunciar o meu</a>
+    </div>
+  </div>
+  <div class="hero-frame">
+    <div class="photo"><span>foto · fachada / sala de estar</span></div>
+  </div>
+</section>
+
+<section class="filter-section" id="imoveis">
+  <div class="wrap filter-bar reveal">
+    <div class="seg" role="group" aria-label="Modo">
+      <label class="seg-opt active" data-modo-opt="comprar"><input type="radio" name="modo" value="comprar" checked>Comprar</label>
+      <label class="seg-opt" data-modo-opt="alugar"><input type="radio" name="modo" value="alugar">Alugar</label>
+      <label class="seg-opt" data-modo-opt="lancamento"><input type="radio" name="modo" value="lancamento">Lançamentos</label>
+    </div>
+    <label class="field">
+      <span>Bairro</span>
+      <select id="filtroBairro">
+        <option>Todos os bairros</option>
+        <option>Pinheiros</option>
+        <option>Vila Madalena</option>
+        <option>Perdizes</option>
+        <option>Consolação</option>
+        <option>Itaim Bibi</option>
+      </select>
+    </label>
+    <label class="field">
+      <span>Quartos</span>
+      <select id="filtroQuartos">
+        <option>Qualquer</option>
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+      </select>
+    </label>
+    <p class="result-label" id="resultLabel">9 de 1.842 imóveis · atualizado hoje</p>
+  </div>
+</section>
+
+<section class="listings">
+  <div class="listings-head reveal">
+    <h2>Imóveis em destaque</h2>
+    <a href="#contato" class="btn btn-ghost">Ver os 1.842 imóveis →</a>
+  </div>
+  <div class="grid-3 reveal" id="listingsGrid">
+    <article class="card" data-modo="comprar" data-bairro="Pinheiros" data-quartos="2">
+      <div class="photo"><span>foto · living</span><span class="tag">Exclusivo</span></div>
+      <div class="card-body">
+        <p class="card-kicker">Pinheiros</p>
+        <h3 class="card-title">Cobertura duplex com terraço</h3>
+        <p class="card-specs">2 quartos · 1 suíte · 112 m² · 2 vagas</p>
+        <div class="card-footer"><span class="card-price">R$ 1.480.000</span><span class="card-extra">Cond. R$ 980</span></div>
+      </div>
+    </article>
+    <article class="card" data-modo="alugar" data-bairro="Vila Madalena" data-quartos="1">
+      <div class="photo"><span>foto · studio</span><span class="tag">Sem fiador</span></div>
+      <div class="card-body">
+        <p class="card-kicker">Vila Madalena</p>
+        <h3 class="card-title">Studio reformado perto do metrô</h3>
+        <p class="card-specs">1 quarto · 38 m² · sem vaga</p>
+        <div class="card-footer"><span class="card-price">R$ 3.200/mês</span><span class="card-extra">IPTU incluso</span></div>
+      </div>
+    </article>
+    <article class="card" data-modo="comprar" data-bairro="Perdizes" data-quartos="3">
+      <div class="photo"><span>foto · varanda</span><span class="tag">Aceita permuta</span></div>
+      <div class="card-body">
+        <p class="card-kicker">Perdizes</p>
+        <h3 class="card-title">Apartamento de esquina, andar alto</h3>
+        <p class="card-specs">3 quartos · 1 suíte · 96 m² · 2 vagas</p>
+        <div class="card-footer"><span class="card-price">R$ 1.150.000</span><span class="card-extra">Cond. R$ 1.240</span></div>
+      </div>
+    </article>
+    <article class="card" data-modo="alugar" data-bairro="Consolação" data-quartos="2">
+      <div class="photo"><span>foto · cozinha</span><span class="tag">Mobiliado</span></div>
+      <div class="card-body">
+        <p class="card-kicker">Consolação</p>
+        <h3 class="card-title">Dois dormitórios em prédio dos anos 60</h3>
+        <p class="card-specs">2 quartos · 74 m² · 1 vaga</p>
+        <div class="card-footer"><span class="card-price">R$ 4.900/mês</span><span class="card-extra">Cond. R$ 720</span></div>
+      </div>
+    </article>
+    <article class="card" data-modo="comprar" data-bairro="Itaim Bibi" data-quartos="1">
+      <div class="photo"><span>foto · fachada</span><span class="tag">Alugado</span></div>
+      <div class="card-body">
+        <p class="card-kicker">Itaim Bibi</p>
+        <h3 class="card-title">Compacto para investimento</h3>
+        <p class="card-specs">1 quarto · 42 m² · 1 vaga</p>
+        <div class="card-footer"><span class="card-price">R$ 890.000</span><span class="card-extra">Rentab. 0,52%</span></div>
+      </div>
+    </article>
+    <article class="card" data-modo="alugar" data-bairro="Pinheiros" data-quartos="3">
+      <div class="photo"><span>foto · terraço</span><span class="tag">Pet friendly</span></div>
+      <div class="card-body">
+        <p class="card-kicker">Pinheiros</p>
+        <h3 class="card-title">Cobertura com churrasqueira</h3>
+        <p class="card-specs">3 quartos · 140 m² · 2 vagas</p>
+        <div class="card-footer"><span class="card-price">R$ 9.800/mês</span><span class="card-extra">Cond. R$ 1.560</span></div>
+      </div>
+    </article>
+    <article class="card" data-modo="comprar" data-bairro="Vila Madalena" data-quartos="2">
+      <div class="photo"><span>foto · jardim</span><span class="tag">Novo</span></div>
+      <div class="card-body">
+        <p class="card-kicker">Vila Madalena</p>
+        <h3 class="card-title">Garden com jardim privativo</h3>
+        <p class="card-specs">2 quartos · 88 m² · 1 vaga</p>
+        <div class="card-footer"><span class="card-price">R$ 1.290.000</span><span class="card-extra">Cond. R$ 890</span></div>
+      </div>
+    </article>
+    <article class="card" data-modo="alugar" data-bairro="Perdizes" data-quartos="1">
+      <div class="photo"><span>foto · loft</span><span class="tag">Sem fiador</span></div>
+      <div class="card-body">
+        <p class="card-kicker">Perdizes</p>
+        <h3 class="card-title">Loft em rua arborizada</h3>
+        <p class="card-specs">1 quarto · 52 m² · 1 vaga</p>
+        <div class="card-footer"><span class="card-price">R$ 3.900/mês</span><span class="card-extra">Cond. R$ 640</span></div>
+      </div>
+    </article>
+    <article class="card" data-modo="comprar" data-bairro="Consolação" data-quartos="3">
+      <div class="photo"><span>foto · sala</span><span class="tag">Exclusivo</span></div>
+      <div class="card-body">
+        <p class="card-kicker">Consolação</p>
+        <h3 class="card-title">Planta original, pé-direito alto</h3>
+        <p class="card-specs">3 quartos · 128 m² · 2 vagas</p>
+        <div class="card-footer"><span class="card-price">R$ 1.620.000</span><span class="card-extra">Cond. R$ 1.100</span></div>
+      </div>
+    </article>
+  </div>
+  <p class="no-results" id="noResults">Nenhum imóvel com esses filtros. Ajuste bairro ou quartos — ou fale com um corretor.</p>
+  <p class="lancamento-note" id="lancamentoNote">3 lançamentos disponíveis · veja o Edifício Rialto abaixo</p>
+</section>
+
+<section class="launch" id="lancamento">
+  <div class="launch-grid reveal">
+    <div class="launch-frame">
+      <div class="photo dark"><span>foto · perspectiva do empreendimento</span></div>
+    </div>
+    <div>
+      <p class="kicker">Lançamento · Pinheiros</p>
+      <h2>Edifício Rialto</h2>
+      <p class="lead">42 unidades de 38 a 92 m², duas quadras da estação Faria Lima. Entrega prevista para dezembro de 2027, entrada parcelada em 36 meses direto com a construtora.</p>
+      <div class="launch-stats">
+        <div><p>38–92</p><p>metros quadrados</p></div>
+        <div><p>R$ 612 mil</p><p>a partir de</p></div>
+        <div><p>61%</p><p>já vendido</p></div>
+      </div>
+      <a href="#contato" class="btn btn-primary">Receber a tabela de unidades</a>
+    </div>
+  </div>
+</section>
+
+<section class="numbers grid-4 reveal">
+  <div class="number-item"><p class="val">1.842</p><p class="label">imóveis ativos na carteira</p></div>
+  <div class="number-item"><p class="val">34 dias</p><p class="label">média para alugar um imóvel</p></div>
+  <div class="number-item"><p class="val">16 anos</p><p class="label">operando só em São Paulo</p></div>
+  <div class="number-item"><p class="val">4,9/5</p><p class="label">nota média de 2.107 avaliações</p></div>
+</section>
+
+<section class="neighborhoods" id="bairros">
+  <div class="wrap reveal">
+    <h2>Onde procurar</h2>
+    <p>Seis regiões onde concentramos a carteira.</p>
+    <div class="grid-3">
+      <a href="#imoveis" class="nbhd-card">
+        <div class="photo"><span>foto · Pinheiros</span></div>
+        <div class="nbhd-foot"><span class="nbhd-name">Pinheiros</span><span class="nbhd-qtd">412 imóveis</span></div>
+      </a>
+      <a href="#imoveis" class="nbhd-card">
+        <div class="photo"><span>foto · Vila Madalena</span></div>
+        <div class="nbhd-foot"><span class="nbhd-name">Vila Madalena</span><span class="nbhd-qtd">288 imóveis</span></div>
+      </a>
+      <a href="#imoveis" class="nbhd-card">
+        <div class="photo"><span>foto · Perdizes</span></div>
+        <div class="nbhd-foot"><span class="nbhd-name">Perdizes</span><span class="nbhd-qtd">254 imóveis</span></div>
+      </a>
+      <a href="#imoveis" class="nbhd-card">
+        <div class="photo"><span>foto · Consolação</span></div>
+        <div class="nbhd-foot"><span class="nbhd-name">Consolação</span><span class="nbhd-qtd">197 imóveis</span></div>
+      </a>
+      <a href="#imoveis" class="nbhd-card">
+        <div class="photo"><span>foto · Itaim Bibi</span></div>
+        <div class="nbhd-foot"><span class="nbhd-name">Itaim Bibi</span><span class="nbhd-qtd">331 imóveis</span></div>
+      </a>
+      <a href="#imoveis" class="nbhd-card">
+        <div class="photo"><span>foto · Butantã</span></div>
+        <div class="nbhd-foot"><span class="nbhd-name">Butantã</span><span class="nbhd-qtd">160 imóveis</span></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="how">
+  <div class="wrap reveal">
+    <h2>Como funciona</h2>
+    <div class="grid-4">
+      <div class="step"><p class="n">01</p><h3>Diga o que procura</h3><p>Bairro, faixa de preço e o que não pode faltar. Leva dois minutos no formulário.</p></div>
+      <div class="step"><p class="n">02</p><h3>Receba uma seleção</h3><p>Um corretor da região monta uma lista curta em até 24 horas — só o que faz sentido.</p></div>
+      <div class="step"><p class="n">03</p><h3>Visite</h3><p>Agendamos até quatro visitas no mesmo dia, com rota otimizada entre os endereços.</p></div>
+      <div class="step"><p class="n">04</p><h3>Feche digital</h3><p>Proposta, análise e assinatura eletrônica. As chaves saem em média em 6 dias.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="simulator" id="simulador">
+  <div class="sim-grid reveal">
+    <div>
+      <p class="kicker">Simulador</p>
+      <h2>Quanto ficaria a parcela</h2>
+      <p class="lead">Cálculo pela tabela SAC com juros de 10,5% ao ano. Estimativa para orientar a conversa — a proposta final sai do banco.</p>
+      <div class="sim-fields">
+        <div class="sim-field">
+          <div class="sim-field-head"><span>Valor do imóvel</span><span id="simValorLabel">R$ 850.000</span></div>
+          <input type="range" id="simValor" min="200000" max="3000000" step="10000" value="850000">
+        </div>
+        <div class="sim-field">
+          <div class="sim-field-head"><span>Entrada</span><span id="simEntradaLabel">20% · R$ 170.000</span></div>
+          <input type="range" id="simEntrada" min="10" max="70" step="1" value="20">
+        </div>
+        <div class="sim-field">
+          <div class="sim-field-head"><span>Prazo</span><span id="simPrazoLabel">30 anos</span></div>
+          <input type="range" id="simPrazo" min="60" max="420" step="12" value="360">
+        </div>
+      </div>
+    </div>
+    <div class="sim-result">
+      <p class="sim-result-label">Primeira parcela estimada</p>
+      <p class="sim-result-value" id="simParcela">R$ 0</p>
+      <div class="sim-lines">
+        <div class="sim-line"><span>Valor financiado</span><span id="simLinhaFinanciado">R$ 0</span></div>
+        <div class="sim-line"><span>Entrada</span><span id="simLinhaEntrada">R$ 0</span></div>
+        <div class="sim-line"><span>Prazo</span><span id="simLinhaPrazo">0 meses</span></div>
+        <div class="sim-line"><span>Renda mínima sugerida</span><span id="simLinhaRenda">R$ 0</span></div>
+      </div>
+      <a href="#contato" class="btn btn-primary btn-block">Falar com um especialista</a>
+    </div>
+  </div>
+</section>
+
+<section class="testimonials">
+  <div class="wrap reveal">
+    <p class="kicker">Quem comprou e alugou com a gente</p>
+    <p class="t-quote" id="tQuote">Visitei quatro apartamentos num sábado e assinei o contrato na terça. O corretor conhecia cada prédio pelo nome do zelador.</p>
+    <p class="t-meta" id="tMeta">Marina Assis · alugou na Vila Madalena</p>
+    <div class="t-dots" id="tDots">
+      <button type="button" class="active" data-i="0" aria-label="Depoimento 1"></button>
+      <button type="button" data-i="1" aria-label="Depoimento 2"></button>
+      <button type="button" data-i="2" aria-label="Depoimento 3"></button>
+    </div>
+  </div>
+</section>
+
+<section class="brokers">
+  <div class="wrap reveal">
+    <div class="brokers-head">
+      <h2>Nossos corretores</h2>
+      <p>Todos com CRECI ativo e dedicação exclusiva a uma região.</p>
+    </div>
+    <div class="grid-4">
+      <div class="broker">
+        <div class="broker-frame"><div class="photo"><span>retrato</span></div></div>
+        <h3>Helena Vasques</h3>
+        <p>Pinheiros e Vila Madalena</p>
+        <p class="creci">CRECI 142.880-F</p>
+      </div>
+      <div class="broker">
+        <div class="broker-frame"><div class="photo"><span>retrato</span></div></div>
+        <h3>Otávio Brandão</h3>
+        <p>Perdizes e Água Branca</p>
+        <p class="creci">CRECI 158.204-F</p>
+      </div>
+      <div class="broker">
+        <div class="broker-frame"><div class="photo"><span>retrato</span></div></div>
+        <h3>Nara Siqueira</h3>
+        <p>Consolação e Higienópolis</p>
+        <p class="creci">CRECI 133.617-F</p>
+      </div>
+      <div class="broker">
+        <div class="broker-frame"><div class="photo"><span>retrato</span></div></div>
+        <h3>Bruno Aleixo</h3>
+        <p>Itaim Bibi e Vila Olímpia</p>
+        <p class="creci">CRECI 171.049-F</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="advertise" id="anuncie">
+  <div class="advertise-grid reveal">
+    <div>
+      <p class="kicker">Para proprietários</p>
+      <h2>Seu imóvel alugado em 34 dias, na média</h2>
+      <p class="lead">Avaliação gratuita em 24h, fotos profissionais por nossa conta, análise de crédito do inquilino e garantia de recebimento do aluguel todo dia 10.</p>
+      <ul class="benefits">
+        <li>Fotos profissionais e planta ilustrada por nossa conta</li>
+        <li>Análise de crédito completa do inquilino em 48h</li>
+        <li>Aluguel na sua conta todo dia 10, mesmo com atraso</li>
+        <li>Vistoria de entrada e saída com laudo fotográfico</li>
+      </ul>
+    </div>
+    <form class="advertise-form" id="advertiseForm">
+      <h3>Avaliação gratuita</h3>
+      <label class="form-field"><span>Nome</span><input type="text" placeholder="Seu nome" required></label>
+      <label class="form-field"><span>WhatsApp</span><input type="tel" placeholder="(11) 90000-0000" required></label>
+      <label class="form-field"><span>Endereço do imóvel</span><input type="text" placeholder="Rua, número, bairro" required></label>
+      <button type="submit" class="btn btn-primary btn-block" id="advertiseSubmit">Solicitar avaliação</button>
+      <p class="disclaimer">Retorno em até 1 dia útil. Sem compromisso.</p>
+    </form>
+  </div>
+</section>
+
+<section class="blog">
+  <div class="wrap reveal">
+    <div class="blog-head">
+      <h2>Do nosso blog</h2>
+      <a href="#contato" class="btn btn-ghost">Todos os artigos →</a>
+    </div>
+    <div class="grid-3">
+      <a href="#contato" class="post">
+        <p class="post-meta">Mercado · Ago 2026</p>
+        <h3>O que mudou no aluguel na zona oeste em 2026</h3>
+        <p>O metro quadrado locado subiu 7,2% em doze meses. Onde ainda dá para negociar.</p>
+      </a>
+      <a href="#contato" class="post">
+        <p class="post-meta">Financiamento · Jul 2026</p>
+        <h3>SAC ou Price: qual tabela pesa menos no seu bolso</h3>
+        <p>Comparamos as duas em um imóvel de R$ 850 mil, com simulação mês a mês.</p>
+      </a>
+      <a href="#contato" class="post">
+        <p class="post-meta">Guia · Jul 2026</p>
+        <h3>Checklist de vistoria antes de assinar o contrato</h3>
+        <p>Doze itens que quase ninguém confere e que viram dor de cabeça na saída.</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="faq-section">
+  <div class="wrap reveal">
+    <h2>Perguntas frequentes</h2>
+    <div class="faq-list" id="faqList">
+      <div class="faq-item open">
+        <button type="button" class="faq-q"><span>Vocês cobram taxa de intermediação do inquilino?</span><span class="sinal">−</span></button>
+        <p class="faq-a">Não. A comissão é paga pelo proprietário. O inquilino paga apenas o primeiro aluguel, o condomínio e o IPTU proporcional.</p>
+      </div>
+      <div class="faq-item">
+        <button type="button" class="faq-q"><span>Preciso de fiador para alugar?</span><span class="sinal">+</span></button>
+        <p class="faq-a">Na maioria dos imóveis, não. Trabalhamos com seguro-fiança e com caução em três parcelas — a análise sai em até 48 horas.</p>
+      </div>
+      <div class="faq-item">
+        <button type="button" class="faq-q"><span>Como funciona a avaliação do meu imóvel?</span><span class="sinal">+</span></button>
+        <p class="faq-a">Um corretor visita o imóvel, fotografa e cruza o histórico de vendas e locações do quarteirão nos últimos 24 meses. O laudo chega por e-mail em um dia útil.</p>
+      </div>
+      <div class="faq-item">
+        <button type="button" class="faq-q"><span>Vocês acompanham o financiamento no banco?</span><span class="sinal">+</span></button>
+        <p class="faq-a">Sim. Reunimos a documentação, submetemos a mais de um banco e acompanhamos até a assinatura em cartório, sem custo adicional.</p>
+      </div>
+      <div class="faq-item">
+        <button type="button" class="faq-q"><span>Dá para visitar fora do horário comercial?</span><span class="sinal">+</span></button>
+        <p class="faq-a">Sim, aos sábados até as 17h e em dias úteis até as 20h, mediante agendamento com 24 horas de antecedência.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="contact-cta" id="contato">
+  <div class="wrap reveal">
+    <h2>Achou um imóvel?<br>Agende a visita hoje.</h2>
+    <p>Respondemos no WhatsApp em poucos minutos, de segunda a sábado, das 9h às 20h.</p>
+    <div class="contact-actions">
+      <a href="#contato" class="btn btn-primary">WhatsApp (11) 4002-8922</a>
+      <a href="#imoveis" class="btn btn-secondary">Agendar visita online</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-grid">
+    <div>
+      <p class="footer-brand">Vértice</p>
+      <p>Rua Cardeal Arcoverde, 1.420 — Pinheiros, São Paulo/SP. CRECI-SP J-28.417.</p>
+      <p class="mono">(11) 4002-8922</p>
+    </div>
+    <div>
+      <p class="footer-col-title">Imóveis</p>
+      <ul class="footer-links">
+        <li><a href="#imoveis">Comprar</a></li>
+        <li><a href="#imoveis">Alugar</a></li>
+        <li><a href="#lancamento">Lançamentos</a></li>
+        <li><a href="#imoveis">Salas comerciais</a></li>
+      </ul>
+    </div>
+    <div>
+      <p class="footer-col-title">Serviços</p>
+      <ul class="footer-links">
+        <li><a href="#anuncie">Anunciar imóvel</a></li>
+        <li><a href="#anuncie">Administração de locação</a></li>
+        <li><a href="#anuncie">Avaliação</a></li>
+        <li><a href="#simulador">Financiamento</a></li>
+      </ul>
+    </div>
+    <div>
+      <p class="footer-col-title">Institucional</p>
+      <ul class="footer-links">
+        <li><a href="#contato">Sobre nós</a></li>
+        <li><a href="#contato">Corretores</a></li>
+        <li><a href="#contato">Blog</a></li>
+        <li><a href="#contato">Trabalhe conosco</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 Vértice — página fictícia, criada para demonstração. Site demonstrativo desenvolvido por Tech Noda.</p>
+    <p>Termos · Privacidade · LGPD</p>
+  </div>
+</footer>
+
+<script>
+  // Reveal on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("in");
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  document.querySelectorAll(".reveal").forEach(el => observer.observe(el));
+
+  // Property filters
+  const cards = Array.from(document.querySelectorAll("#listingsGrid .card"));
+  const grid = document.getElementById("listingsGrid");
+  const noResults = document.getElementById("noResults");
+  const lancamentoNote = document.getElementById("lancamentoNote");
+  const resultLabel = document.getElementById("resultLabel");
+  const bairroSelect = document.getElementById("filtroBairro");
+  const quartosSelect = document.getElementById("filtroQuartos");
+  const segOpts = document.querySelectorAll(".seg-opt");
+
+  function currentModo() {
+    return document.querySelector('input[name="modo"]:checked').value;
+  }
+
+  function applyFilters() {
+    const modo = currentModo();
+    const bairro = bairroSelect.value;
+    const quartos = quartosSelect.value;
+
+    if (modo === "lancamento") {
+      grid.style.display = "none";
+      noResults.style.display = "none";
+      lancamentoNote.style.display = "block";
+      resultLabel.textContent = "3 lançamentos · veja o Edifício Rialto abaixo";
+      return;
+    }
+
+    let visible = 0;
+    cards.forEach(card => {
+      const show = card.dataset.modo === modo
+        && (bairro === "Todos os bairros" || card.dataset.bairro === bairro)
+        && (quartos === "Qualquer" || card.dataset.quartos === quartos);
+      card.style.display = show ? "" : "none";
+      if (show) visible++;
+    });
+
+    grid.style.display = "grid";
+    lancamentoNote.style.display = "none";
+    noResults.style.display = visible === 0 ? "block" : "none";
+    resultLabel.textContent = visible + " de 1.842 imóveis · atualizado hoje";
+  }
+
+  segOpts.forEach(opt => {
+    opt.addEventListener("click", () => {
+      segOpts.forEach(o => o.classList.remove("active"));
+      opt.classList.add("active");
+      applyFilters();
+    });
+  });
+  bairroSelect.addEventListener("change", applyFilters);
+  quartosSelect.addEventListener("change", applyFilters);
+  applyFilters();
+
+  // Financing simulator
+  const brl = (n) => "R$ " + Math.round(n).toLocaleString("pt-BR");
+  const simValor = document.getElementById("simValor");
+  const simEntrada = document.getElementById("simEntrada");
+  const simPrazo = document.getElementById("simPrazo");
+
+  function updateSimulator() {
+    const valor = +simValor.value;
+    const entradaPct = +simEntrada.value;
+    const prazo = +simPrazo.value;
+    const financiado = valor * (1 - entradaPct / 100);
+    const juros = 0.105 / 12;
+    const parcela = financiado / prazo + financiado * juros;
+
+    document.getElementById("simValorLabel").textContent = brl(valor);
+    document.getElementById("simEntradaLabel").textContent = entradaPct + "% · " + brl(valor * entradaPct / 100);
+    document.getElementById("simPrazoLabel").textContent = (prazo / 12) + " anos";
+    document.getElementById("simParcela").textContent = brl(parcela);
+    document.getElementById("simLinhaFinanciado").textContent = brl(financiado);
+    document.getElementById("simLinhaEntrada").textContent = brl(valor * entradaPct / 100);
+    document.getElementById("simLinhaPrazo").textContent = prazo + " meses";
+    document.getElementById("simLinhaRenda").textContent = brl(parcela * 3.33);
+  }
+  [simValor, simEntrada, simPrazo].forEach(el => el.addEventListener("input", updateSimulator));
+  updateSimulator();
+
+  // Testimonials
+  const DEPOS = [
+    { texto: "Visitei quatro apartamentos num sábado e assinei o contrato na terça. O corretor conhecia cada prédio pelo nome do zelador.", autor: "Marina Assis", contexto: "alugou na Vila Madalena" },
+    { texto: "Anunciei meu apartamento numa quinta e recebi três propostas antes do fim do mês. A avaliação veio com dados do quarteirão inteiro.", autor: "Rogério Tanaka", contexto: "proprietário em Perdizes" },
+    { texto: "Era minha primeira compra e eu não entendia nada de financiamento. Explicaram três vezes, sem pressa e sem empurrar nada.", autor: "Cláudia Bandeira", contexto: "comprou em Pinheiros" }
+  ];
+  const tQuote = document.getElementById("tQuote");
+  const tMeta = document.getElementById("tMeta");
+  const tDots = document.querySelectorAll("#tDots button");
+  tDots.forEach(dot => {
+    dot.addEventListener("click", () => {
+      const i = +dot.dataset.i;
+      tQuote.textContent = DEPOS[i].texto;
+      tMeta.textContent = DEPOS[i].autor + " · " + DEPOS[i].contexto;
+      tDots.forEach(d => d.classList.remove("active"));
+      dot.classList.add("active");
+    });
+  });
+
+  // FAQ accordion
+  document.querySelectorAll(".faq-item").forEach(item => {
+    item.querySelector(".faq-q").addEventListener("click", () => {
+      const isOpen = item.classList.contains("open");
+      document.querySelectorAll(".faq-item").forEach(i => {
+        i.classList.remove("open");
+        i.querySelector(".sinal").textContent = "+";
+      });
+      if (!isOpen) {
+        item.classList.add("open");
+        item.querySelector(".sinal").textContent = "−";
+      }
+    });
+  });
+
+  // Advertise form
+  document.getElementById("advertiseForm").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const btn = document.getElementById("advertiseSubmit");
+    btn.textContent = "Pedido enviado ✓";
+    btn.disabled = true;
+  });
+</script>
+
+</body>
+</html>
