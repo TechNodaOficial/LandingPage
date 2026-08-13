@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bloom Studio — Estúdio de Beleza em São Paulo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#14121a;
+    --ink-soft:#211d29;
+    --bg:#faf9fb;
+    --surface:#ffffff;
+    --line:rgba(20,18,26,0.10);
+    --line-dark:rgba(250,249,251,0.14);
+    --violet:#7c3aed;
+    --pink:#ec4899;
+    --coral:#fb7185;
+    --orange:#fb923c;
+    --grad:linear-gradient(135deg,#7c3aed 0%,#ec4899 55%,#fb923c 100%);
+    --grad-soft:linear-gradient(135deg,rgba(124,58,237,0.14),rgba(236,72,153,0.14) 55%,rgba(251,146,60,0.14));
+    --neutral-100:#f5f4f7;
+    --neutral-200:#ece9f0;
+    --neutral-500:#8b859500;
+    --neutral-600:#6b6675;
+    --neutral-700:#544f5c;
+    --neutral-800:#312d38;
+    --font-heading:'Sora', sans-serif;
+    --font-body:'Inter', sans-serif;
+    --font-mono:'IBM Plex Mono', monospace;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  html,body{overflow-x:hidden;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font-body);line-height:1.6;}
+  h1,h2,h3{font-family:var(--font-heading);font-weight:700;margin:0;letter-spacing:-0.01em;}
+  a{color:inherit;text-decoration:none;}
+  img{max-width:100%;display:block;}
+  ::selection{background:var(--pink);color:#fff;}
+  :focus-visible{outline:2px solid var(--violet);outline-offset:2px;}
+  .wrap{max-width:1240px;margin:0 auto;padding:0 40px;}
+  .kicker{display:inline-flex;align-items:center;gap:8px;font-family:var(--font-mono);font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--violet);margin:0 0 18px;}
+  .kicker::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--grad);}
+  .grad-text{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;}
+
+  /* — buttons — */
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;font-family:var(--font-heading);font-size:15px;font-weight:700;padding:14px 26px;border-radius:100px;border:1px solid transparent;white-space:nowrap;}
+  .btn-primary{background:var(--grad);color:#fff;box-shadow:0 10px 30px -8px rgba(236,72,153,0.55);}
+  .btn-primary:hover{box-shadow:0 14px 34px -6px rgba(236,72,153,0.7);}
+  .btn-outline{border-color:var(--line-dark);color:#fff;}
+  .btn-outline:hover{background:rgba(255,255,255,0.08);}
+  .btn-outline-dark{border-color:var(--line);color:var(--ink);}
+  .btn-outline-dark:hover{background:rgba(20,18,26,0.05);}
+  .btn-block{width:100%;}
+
+  /* — placeholders — */
+  .ph{position:relative;background-color:var(--neutral-200);background-image:repeating-linear-gradient(135deg, rgba(20,18,26,0.06) 0 2px, transparent 2px 11px);display:flex;align-items:flex-end;padding:14px;border-radius:20px;overflow:hidden;}
+  .ph span{font-family:var(--font-mono);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--neutral-700);background:var(--surface);padding:5px 9px;border-radius:100px;}
+  .ph.dark{background-color:#221e2b;background-image:repeating-linear-gradient(135deg, rgba(250,249,251,0.06) 0 2px, transparent 2px 11px);}
+  .ph.dark span{color:#d8d3e0;background:rgba(255,255,255,0.08);}
+
+  /* — glass card — */
+  .glass{background:rgba(255,255,255,0.72);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,0.6);border-radius:24px;box-shadow:0 20px 50px -24px rgba(20,18,26,0.25);}
+  .glass-dark{background:rgba(255,255,255,0.05);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid var(--line-dark);border-radius:24px;}
+
+  /* — header — */
+  header{position:sticky;top:0;z-index:50;background:rgba(250,249,251,0.85);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line);}
+  .nav-row{display:flex;align-items:center;gap:36px;padding:18px 0;}
+  .brand{display:flex;align-items:baseline;gap:8px;margin-right:auto;}
+  .brand-name{font-family:var(--font-heading);font-size:22px;font-weight:800;}
+  .brand-tag{font-family:var(--font-mono);font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--neutral-600);}
+  .nav-links{display:flex;gap:26px;font-size:14px;font-weight:600;white-space:nowrap;}
+  .nav-links a:hover{color:var(--violet);}
+
+  /* — hero — */
+  .hero{position:relative;background:var(--ink);color:#fff;overflow:hidden;}
+  .hero::before{content:'';position:absolute;top:-160px;right:-120px;width:520px;height:520px;background:var(--grad);filter:blur(120px);opacity:0.55;border-radius:50%;}
+  .hero::after{content:'';position:absolute;bottom:-200px;left:-140px;width:480px;height:480px;background:radial-gradient(circle,var(--violet),transparent 70%);filter:blur(100px);opacity:0.4;border-radius:50%;}
+  .hero-inner{position:relative;z-index:2;padding:110px 0 80px;text-align:center;}
+  .hero .kicker{justify-content:center;color:#f2c9e6;}
+  .hero .kicker::before{background:var(--grad);}
+  .hero h1{font-size:clamp(38px,6vw,74px);line-height:1.05;margin:0 auto 24px;max-width:16ch;}
+  .hero p.lead{font-size:18px;line-height:1.7;color:rgba(250,249,251,0.72);max-width:52ch;margin:0 auto 38px;}
+  .hero-actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:64px;}
+  .hero-stats{display:flex;justify-content:center;gap:0;flex-wrap:wrap;}
+  .hero-stat{padding:0 34px;border-left:1px solid var(--line-dark);}
+  .hero-stat:first-child{border-left:none;}
+  .hero-stat b{display:block;font-family:var(--font-heading);font-size:32px;font-weight:800;}
+  .hero-stat span{font-size:12px;color:rgba(250,249,251,0.6);}
+
+  /* — marquee — */
+  .marquee{background:var(--grad);overflow:hidden;white-space:nowrap;padding:14px 0;}
+  .marquee-track{display:inline-flex;gap:44px;animation:scroll 24s linear infinite;}
+  .marquee-track span{font-family:var(--font-mono);font-size:13px;letter-spacing:0.1em;text-transform:uppercase;color:#fff;font-weight:500;}
+  @keyframes scroll{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+
+  /* — section heads — */
+  section{padding:100px 0;}
+  .sec-head{max-width:640px;margin:0 auto 52px;text-align:center;}
+  .sec-head h2{font-size:clamp(30px,4vw,44px);}
+  .sec-head p{font-size:16px;color:var(--neutral-700);margin:14px 0 0;}
+
+  /* — services — */
+  .services{background:var(--surface);}
+  .svc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;}
+  .svc-card{padding:30px 26px;display:flex;flex-direction:column;gap:14px;}
+  .svc-card .dot{width:40px;height:40px;border-radius:12px;background:var(--grad);}
+  .svc-card h3{font-size:20px;}
+  .svc-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px;}
+  .svc-list li{font-size:14px;color:var(--neutral-700);border-bottom:1px dashed var(--line);padding-bottom:8px;}
+  .svc-from{margin-top:auto;padding-top:10px;font-family:var(--font-heading);font-size:15px;font-weight:700;}
+  .svc-from em{font-style:normal;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;}
+
+  /* — gallery — */
+  .gallery{background:var(--bg);}
+  .gal-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
+  .gal-item .ph{aspect-ratio:4/5;}
+
+  /* — plans — */
+  .plans{background:var(--ink);color:#fff;}
+  .plans .sec-head p{color:rgba(250,249,251,0.65);}
+  .toggle{display:inline-flex;background:rgba(255,255,255,0.06);border:1px solid var(--line-dark);border-radius:100px;padding:4px;margin:22px auto 0;gap:2px;}
+  .toggle button{border:none;background:transparent;color:rgba(250,249,251,0.7);font-family:var(--font-mono);font-size:12px;letter-spacing:0.08em;text-transform:uppercase;padding:9px 20px;border-radius:100px;cursor:pointer;}
+  .toggle button.active{background:var(--grad);color:#fff;}
+  .plan-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;align-items:stretch;}
+  .plan-card{padding:34px 28px;display:flex;flex-direction:column;gap:18px;}
+  .plan-card.featured{border-image:none;position:relative;background:rgba(255,255,255,0.09);}
+  .plan-badge{position:absolute;top:-13px;left:28px;background:var(--grad);color:#fff;font-family:var(--font-mono);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;padding:5px 12px;border-radius:100px;}
+  .plan-name{font-size:22px;}
+  .plan-price{display:flex;align-items:baseline;gap:6px;}
+  .plan-price .val{font-family:var(--font-heading);font-size:40px;font-weight:800;}
+  .plan-price .per{font-size:13px;color:rgba(250,249,251,0.55);}
+  .plan-save{font-family:var(--font-mono);font-size:11px;letter-spacing:0.06em;color:#facc15;display:none;}
+  .plan-save.show{display:block;}
+  .plan-feats{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:11px;flex:1;}
+  .plan-feats li{font-size:14px;color:rgba(250,249,251,0.8);padding-left:22px;position:relative;}
+  .plan-feats li::before{content:'✓';position:absolute;left:0;color:var(--coral);font-weight:700;}
+
+  /* — team — */
+  .team{background:var(--surface);}
+  .team-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;}
+  .team-card{padding:16px;text-align:center;}
+  .team-card .ph{aspect-ratio:1/1;border-radius:18px;margin-bottom:16px;}
+  .team-card h3{font-size:19px;margin-bottom:3px;}
+  .team-card .role{font-size:13px;color:var(--violet);font-weight:600;margin-bottom:2px;}
+  .team-card .spec{font-size:12px;color:var(--neutral-600);}
+
+  /* — testimonials — */
+  .testimonials{background:var(--bg);}
+  .t-wrap{max-width:760px;margin:0 auto;text-align:center;}
+  .t-quote{font-family:var(--font-heading);font-weight:700;font-size:clamp(22px,3vw,30px);line-height:1.4;margin:0 0 22px;}
+  .t-meta{font-size:14px;color:var(--neutral-700);margin:0 0 26px;}
+  .t-dots{display:flex;gap:10px;justify-content:center;}
+  .t-dots button{width:28px;height:4px;border:none;border-radius:100px;padding:0;cursor:pointer;background:var(--neutral-200);}
+  .t-dots button.active{background:var(--grad);}
+
+  /* — faq — */
+  .faq{background:var(--surface);}
+  .faq-wrap{max-width:820px;margin:0 auto;}
+  .faq-item{border-bottom:1px solid var(--line);}
+  .faq-q{width:100%;display:flex;justify-content:space-between;align-items:center;gap:20px;text-align:left;background:transparent;border:none;padding:22px 4px;cursor:pointer;font-family:var(--font-heading);font-size:18px;font-weight:700;color:var(--ink);}
+  .faq-q .sign{font-size:20px;color:var(--violet);}
+  .faq-a{font-size:15px;line-height:1.7;color:var(--neutral-700);margin:0;padding:0 40px 22px 4px;display:none;}
+  .faq-item.open .faq-a{display:block;}
+
+  /* — contact — */
+  .contact{background:var(--ink);color:#fff;}
+  .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;}
+  .contact h2{font-size:clamp(30px,4vw,44px);margin-bottom:16px;}
+  .contact p.lead{color:rgba(250,249,251,0.68);font-size:16px;margin-bottom:30px;max-width:46ch;}
+  .contact-item{display:flex;gap:16px;padding:16px 0;border-bottom:1px solid var(--line-dark);font-size:14.5px;}
+  .contact-item .lbl{width:110px;flex-shrink:0;font-family:var(--font-mono);font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:#f2c9e6;padding-top:2px;}
+  .contact-map .ph{aspect-ratio:4/3.4;border-radius:24px;}
+
+  /* — footer — */
+  footer{background:#0e0c13;color:rgba(250,249,251,0.65);}
+  .footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:44px;padding:64px 0 34px;}
+  .footer-brand{font-family:var(--font-heading);font-size:22px;font-weight:800;color:#fff;margin-bottom:12px;}
+  .footer-grid p{font-size:14px;line-height:1.7;margin:0 0 14px;max-width:32ch;}
+  .footer-grid .mono{font-family:var(--font-mono);font-size:12px;}
+  .footer-col-title{font-family:var(--font-mono);font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:rgba(250,249,251,0.4);margin-bottom:16px;}
+  .footer-links{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px;}
+  .footer-links a{font-size:14px;}
+  .footer-links a:hover{color:#f2c9e6;}
+  .footer-bottom{border-top:1px solid var(--line-dark);padding:20px 0 34px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;font-family:var(--font-mono);font-size:11px;}
+
+  /* — reveal — */
+  .reveal{opacity:0;transform:translateY(14px);transition:opacity .6s ease, transform .6s ease;}
+  .reveal.in{opacity:1;transform:translateY(0);}
+
+  @media (max-width:1024px){
+    .svc-grid,.team-grid{grid-template-columns:repeat(2,1fr);}
+    .gal-grid{grid-template-columns:repeat(2,1fr);}
+    .plan-grid{grid-template-columns:1fr;max-width:420px;margin:0 auto;}
+    .footer-grid{grid-template-columns:repeat(2,1fr);}
+    .contact-grid{grid-template-columns:1fr;}
+    section{padding:76px 0;}
+  }
+  @media (max-width:680px){
+    .wrap{padding:0 22px;}
+    .nav-row{flex-direction:column;align-items:flex-start;gap:14px;padding:14px 0;}
+    .nav-row .btn{align-self:stretch;text-align:center;}
+    .brand{margin-right:0;}
+    .nav-links{width:100%;overflow-x:auto;gap:18px;padding-bottom:2px;}
+    .svc-grid,.team-grid,.gal-grid,.footer-grid{grid-template-columns:1fr!important;}
+    .hero-stats{gap:18px;}
+    .hero-stat{border-left:none;padding:0 18px;}
+    h1{font-size:36px!important;}
+    h2{font-size:28px!important;}
+    section{padding:64px 0;}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .reveal{opacity:1;transform:none;transition:none;}
+    .marquee-track{animation:none;}
+    html{scroll-behavior:auto;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav-row">
+    <div class="brand">
+      <span class="brand-name">Bloom<span class="grad-text">.</span></span>
+      <span class="brand-tag">Studio · SP</span>
+    </div>
+    <nav class="nav-links">
+      <a href="#servicos">Serviços</a>
+      <a href="#portfolio">Portfólio</a>
+      <a href="#planos">Planos</a>
+      <a href="#equipe">Equipe</a>
+      <a href="#depoimentos">Depoimentos</a>
+    </nav>
+    <a href="#contato" class="btn btn-primary">Agendar horário</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap hero-inner reveal">
+    <p class="kicker">Estúdio de beleza · Jardins, São Paulo</p>
+    <h1>Beleza que acompanha o seu ritmo</h1>
+    <p class="lead">Cabelo, unhas, estética facial e sobrancelhas num único espaço, com agenda flexível e uma equipe que lembra do seu nome — e do seu tom de cor preferido.</p>
+    <div class="hero-actions">
+      <a href="#contato" class="btn btn-primary">Agendar horário</a>
+      <a href="#servicos" class="btn btn-outline">Ver serviços</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat"><b>12.400+</b><span>clientes atendidas</span></div>
+      <div class="hero-stat"><b>4,9/5</b><span>nota média de avaliações</span></div>
+      <div class="hero-stat"><b>8 anos</b><span>de estúdio nos Jardins</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="marquee">
+  <div class="marquee-track">
+    <span>CORTE</span><span>·</span><span>COLORAÇÃO</span><span>·</span><span>MANICURE</span><span>·</span><span>DESIGN DE SOBRANCELHA</span><span>·</span><span>SKINCARE</span><span>·</span><span>PENTEADO</span><span>·</span><span>ALONGAMENTO DE CÍLIOS</span><span>·</span>
+    <span>CORTE</span><span>·</span><span>COLORAÇÃO</span><span>·</span><span>MANICURE</span><span>·</span><span>DESIGN DE SOBRANCELHA</span><span>·</span><span>SKINCARE</span><span>·</span><span>PENTEADO</span><span>·</span><span>ALONGAMENTO DE CÍLIOS</span><span>·</span>
+  </div>
+</div>
+
+<section class="services" id="servicos">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="kicker" style="justify-content:center;">O que fazemos</p>
+      <h2>Quatro frentes, um só padrão de cuidado</h2>
+      <p>Todos os serviços incluem diagnóstico gratuito antes de começar.</p>
+    </div>
+    <div class="svc-grid reveal">
+      <div class="svc-card glass">
+        <div class="dot"></div>
+        <h3>Cabelo</h3>
+        <ul class="svc-list">
+          <li>Corte + finalização</li>
+          <li>Coloração e mechas</li>
+          <li>Hidratação profunda</li>
+        </ul>
+        <p class="svc-from">a partir de <em>R$ 120</em></p>
+      </div>
+      <div class="svc-card glass">
+        <div class="dot"></div>
+        <h3>Unhas</h3>
+        <ul class="svc-list">
+          <li>Manicure e pedicure</li>
+          <li>Alongamento em gel</li>
+          <li>Nail art personalizada</li>
+        </ul>
+        <p class="svc-from">a partir de <em>R$ 60</em></p>
+      </div>
+      <div class="svc-card glass">
+        <div class="dot"></div>
+        <h3>Estética facial</h3>
+        <ul class="svc-list">
+          <li>Limpeza de pele profunda</li>
+          <li>Peeling de diamante</li>
+          <li>Skincare personalizado</li>
+        </ul>
+        <p class="svc-from">a partir de <em>R$ 150</em></p>
+      </div>
+      <div class="svc-card glass">
+        <div class="dot"></div>
+        <h3>Sobrancelhas</h3>
+        <ul class="svc-list">
+          <li>Design com henna</li>
+          <li>Micropigmentação</li>
+          <li>Alongamento de cílios</li>
+        </ul>
+        <p class="svc-from">a partir de <em>R$ 45</em></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="gallery" id="portfolio">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="kicker" style="justify-content:center;">Portfólio</p>
+      <h2>Trabalhos recentes do estúdio</h2>
+    </div>
+    <div class="gal-grid reveal">
+      <div class="gal-item"><div class="ph"><span>corte + coloração</span></div></div>
+      <div class="gal-item"><div class="ph"><span>unhas em gel joia</span></div></div>
+      <div class="gal-item"><div class="ph"><span>penteado para noiva</span></div></div>
+      <div class="gal-item"><div class="ph"><span>skincare glow</span></div></div>
+      <div class="gal-item"><div class="ph"><span>design de sobrancelha</span></div></div>
+      <div class="gal-item"><div class="ph"><span>alongamento de cílios</span></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="plans" id="planos">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="kicker" style="justify-content:center;">Assinatura</p>
+      <h2>Planos mensais pra quem já sabe que vai voltar</h2>
+      <p>Cancele quando quiser, sem multa.</p>
+      <div class="toggle" id="planToggle">
+        <button type="button" class="active" data-period="mensal">Mensal</button>
+        <button type="button" data-period="anual">Anual · economize 20%</button>
+      </div>
+    </div>
+    <div class="plan-grid reveal">
+      <div class="plan-card glass-dark">
+        <p class="plan-name">Essencial</p>
+        <div class="plan-price"><span class="val" data-mensal="R$ 99" data-anual="R$ 79">R$ 99</span><span class="per">/mês</span></div>
+        <p class="plan-save" data-anual-total="cobrado R$ 948/ano">cobrado R$ 948/ano</p>
+        <ul class="plan-feats">
+          <li>1 corte por mês</li>
+          <li>10% de desconto em produtos</li>
+          <li>Prioridade na agenda online</li>
+        </ul>
+        <a href="#contato" class="btn btn-outline btn-block">Assinar plano</a>
+      </div>
+      <div class="plan-card glass-dark featured">
+        <span class="plan-badge">Mais popular</span>
+        <p class="plan-name">Bloom+</p>
+        <div class="plan-price"><span class="val" data-mensal="R$ 179" data-anual="R$ 143">R$ 179</span><span class="per">/mês</span></div>
+        <p class="plan-save" data-anual-total="cobrado R$ 1.716/ano">cobrado R$ 1.716/ano</p>
+        <ul class="plan-feats">
+          <li>1 corte + 1 escova por mês</li>
+          <li>1 manicure incluída</li>
+          <li>15% de desconto em serviços extras</li>
+          <li>Prioridade na agenda online</li>
+        </ul>
+        <a href="#contato" class="btn btn-primary btn-block">Assinar plano</a>
+      </div>
+      <div class="plan-card glass-dark">
+        <p class="plan-name">VIP</p>
+        <div class="plan-price"><span class="val" data-mensal="R$ 289" data-anual="R$ 231">R$ 289</span><span class="per">/mês</span></div>
+        <p class="plan-save" data-anual-total="cobrado R$ 2.772/ano">cobrado R$ 2.772/ano</p>
+        <ul class="plan-feats">
+          <li>Tudo do plano Bloom+</li>
+          <li>Skincare facial mensal</li>
+          <li>Brinde de aniversário</li>
+          <li>Atendimento com horário reservado</li>
+        </ul>
+        <a href="#contato" class="btn btn-outline btn-block">Assinar plano</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="team" id="equipe">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="kicker" style="justify-content:center;">Equipe</p>
+      <h2>Quem cuida de você por aqui</h2>
+    </div>
+    <div class="team-grid reveal">
+      <div class="team-card">
+        <div class="ph"><span>retrato</span></div>
+        <h3>Aline Bloom</h3>
+        <p class="role">Fundadora & Hair Stylist</p>
+        <p class="spec">Coloração e cortes autorais</p>
+      </div>
+      <div class="team-card">
+        <div class="ph"><span>retrato</span></div>
+        <h3>Bianca Reis</h3>
+        <p class="role">Colorista sênior</p>
+        <p class="spec">Especialista em loiros</p>
+      </div>
+      <div class="team-card">
+        <div class="ph"><span>retrato</span></div>
+        <h3>Rafael Nunes</h3>
+        <p class="role">Hair Stylist</p>
+        <p class="spec">Cortes e texturas naturais</p>
+      </div>
+      <div class="team-card">
+        <div class="ph"><span>retrato</span></div>
+        <h3>Juliana Prado</h3>
+        <p class="role">Nail Designer</p>
+        <p class="spec">Alongamento e nail art</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="testimonials" id="depoimentos">
+  <div class="wrap t-wrap reveal">
+    <p class="kicker" style="justify-content:center;">Depoimentos</p>
+    <p class="t-quote" id="tQuote">Troquei de salão umas cinco vezes até achar o Bloom. É o único lugar onde saio de lá com o cabelo exatamente como pedi.</p>
+    <p class="t-meta" id="tMeta">Marcela Ito · cliente há 2 anos</p>
+    <div class="t-dots" id="tDots">
+      <button type="button" class="active" data-i="0" aria-label="Depoimento 1"></button>
+      <button type="button" data-i="1" aria-label="Depoimento 2"></button>
+      <button type="button" data-i="2" aria-label="Depoimento 3"></button>
+    </div>
+  </div>
+</section>
+
+<section class="faq">
+  <div class="wrap faq-wrap">
+    <div class="sec-head reveal">
+      <h2>Perguntas frequentes</h2>
+    </div>
+    <div class="reveal">
+      <div class="faq-item open">
+        <button type="button" class="faq-q"><span>Como funciona o plano de assinatura?</span><span class="sign">−</span></button>
+        <p class="faq-a">Você escolhe um dos três planos, paga mensal ou anual, e os benefícios ficam disponíveis assim que a primeira cobrança é aprovada. Pode cancelar quando quiser, sem multa.</p>
+      </div>
+      <div class="faq-item">
+        <button type="button" class="faq-q"><span>Preciso agendar com antecedência?</span><span class="sign">+</span></button>
+        <p class="faq-a">Recomendamos agendar com 2 a 3 dias de antecedência, mas assinantes têm prioridade e conseguem encaixes na mesma semana.</p>
+      </div>
+      <div class="faq-item">
+        <button type="button" class="faq-q"><span>Vocês atendem cabelo cacheado e crespo?</span><span class="sign">+</span></button>
+        <p class="faq-a">Sim, toda a equipe é treinada em técnicas para todos os tipos de cabelo, incluindo cortes de curva e finalização sem química.</p>
+      </div>
+      <div class="faq-item">
+        <button type="button" class="faq-q"><span>Quais formas de pagamento são aceitas?</span><span class="sign">+</span></button>
+        <p class="faq-a">Pix, cartão de crédito e débito. Os planos de assinatura são cobrados automaticamente no cartão todo mês.</p>
+      </div>
+      <div class="faq-item">
+        <button type="button" class="faq-q"><span>Tem estacionamento perto?</span><span class="sign">+</span></button>
+        <p class="faq-a">Sim, temos convênio com o estacionamento do prédio ao lado com desconto para clientes do estúdio.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contato">
+  <div class="wrap contact-grid reveal">
+    <div>
+      <p class="kicker">Visite o estúdio</p>
+      <h2>Bora marcar aquele horário?</h2>
+      <p class="lead">Respondemos rápido no WhatsApp, de terça a sábado. Também dá pra agendar direto pelo site.</p>
+      <div class="contact-item"><span class="lbl">Endereço</span><span>Rua Oscar Freire, 1.284 — Jardins, São Paulo/SP</span></div>
+      <div class="contact-item"><span class="lbl">Horário</span><span>Terça a sábado, das 9h às 19h</span></div>
+      <div class="contact-item" style="border-bottom:none;"><span class="lbl">Contato</span><span>(11) 98212-4471 · @bloomstudio.sp</span></div>
+      <div class="hero-actions" style="justify-content:flex-start;margin-top:28px;">
+        <a href="#contato" class="btn btn-primary">Agendar pelo WhatsApp</a>
+      </div>
+    </div>
+    <div class="contact-map">
+      <div class="ph dark"><span>mapa · Jardins, São Paulo</span></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap footer-grid">
+    <div>
+      <p class="footer-brand">Bloom Studio</p>
+      <p>Rua Oscar Freire, 1.284 — Jardins, São Paulo/SP.</p>
+      <p class="mono">(11) 98212-4471</p>
+    </div>
+    <div>
+      <p class="footer-col-title">Serviços</p>
+      <ul class="footer-links">
+        <li><a href="#servicos">Cabelo</a></li>
+        <li><a href="#servicos">Unhas</a></li>
+        <li><a href="#servicos">Estética facial</a></li>
+        <li><a href="#servicos">Sobrancelhas</a></li>
+      </ul>
+    </div>
+    <div>
+      <p class="footer-col-title">Estúdio</p>
+      <ul class="footer-links">
+        <li><a href="#portfolio">Portfólio</a></li>
+        <li><a href="#planos">Planos</a></li>
+        <li><a href="#equipe">Equipe</a></li>
+        <li><a href="#depoimentos">Depoimentos</a></li>
+      </ul>
+    </div>
+    <div>
+      <p class="footer-col-title">Contato</p>
+      <ul class="footer-links">
+        <li><a href="#contato">Agendar horário</a></li>
+        <li><a href="#contato">WhatsApp</a></li>
+        <li><a href="#contato">Instagram</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="wrap footer-bottom">
+    <p>© 2026 Bloom Studio — página fictícia, criada para demonstração. Site demonstrativo desenvolvido por Tech Noda.</p>
+    <p>Termos · Privacidade · LGPD</p>
+  </div>
+</footer>
+
+<script>
+  // Reveal on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("in");
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  document.querySelectorAll(".reveal").forEach(el => observer.observe(el));
+
+  // Testimonials
+  const DEPOS = [
+    { texto: "Troquei de salão umas cinco vezes até achar o Bloom. É o único lugar onde saio de lá com o cabelo exatamente como pedi.", autor: "Marcela Ito", contexto: "cliente há 2 anos" },
+    { texto: "Assinei o plano Bloom+ e nunca mais deixei a unha sem fazer. Compensa muito pra quem vai todo mês.", autor: "Renata Castilho", contexto: "assinante do plano Bloom+" },
+    { texto: "Fiz a sobrancelha com henna e o resultado durou muito mais do que eu esperava. Equipe super atenciosa.", autor: "Priscila Andrade", contexto: "cliente há 8 meses" }
+  ];
+  const tQuote = document.getElementById("tQuote");
+  const tMeta = document.getElementById("tMeta");
+  const tDots = document.querySelectorAll("#tDots button");
+  tDots.forEach(dot => {
+    dot.addEventListener("click", () => {
+      const i = +dot.dataset.i;
+      tQuote.textContent = DEPOS[i].texto;
+      tMeta.textContent = DEPOS[i].autor + " · " + DEPOS[i].contexto;
+      tDots.forEach(d => d.classList.remove("active"));
+      dot.classList.add("active");
+    });
+  });
+
+  // FAQ accordion
+  document.querySelectorAll(".faq-item").forEach(item => {
+    item.querySelector(".faq-q").addEventListener("click", () => {
+      const isOpen = item.classList.contains("open");
+      document.querySelectorAll(".faq-item").forEach(i => {
+        i.classList.remove("open");
+        i.querySelector(".sign").textContent = "+";
+      });
+      if (!isOpen) {
+        item.classList.add("open");
+        item.querySelector(".sign").textContent = "−";
+      }
+    });
+  });
+
+  // Plans toggle
+  const toggleBtns = document.querySelectorAll("#planToggle button");
+  const planVals = document.querySelectorAll(".plan-price .val");
+  const planSaves = document.querySelectorAll(".plan-save");
+  toggleBtns.forEach(btn => {
+    btn.addEventListener("click", () => {
+      const period = btn.dataset.period;
+      toggleBtns.forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      planVals.forEach(val => { val.textContent = val.dataset[period]; });
+      planSaves.forEach(p => p.classList.toggle("show", period === "anual"));
+    });
+  });
+</script>
+
+</body>
+</html>
